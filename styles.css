@@ -295,7 +295,7 @@ a{color:inherit}
 .creds li:hover{background:rgba(67,139,196,.2);transform:translateY(-2px);box-shadow:0 6px 16px rgba(67,139,196,.26)}
 
 /* --------------------------------------------------------------- карточки */
-.cards{display:grid;gap:1rem}
+.cards{display:grid;gap:1rem;grid-auto-flow:row dense}
 .card{
   position:relative;display:flex;flex-direction:column;gap:.85rem;
   padding:clamp(1.5rem,3.5vw,2rem);
@@ -776,4 +776,112 @@ a{color:inherit}
 @media (min-width:980px){
   .program{grid-template-columns:1.05fr .95fr;align-items:start}
   .mkgrid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+
+/* ==========================================================================
+   Раскрывающаяся карточка рэка «Перванш»
+   ========================================================================== */
+
+.wreck{padding:0;cursor:pointer}
+.wreck[open]{cursor:default;grid-column:1/-1}
+
+.wreck__sum{
+  list-style:none;min-width:0;flex:1;display:flex;flex-direction:column;gap:.85rem;
+  padding:clamp(1.5rem,3.5vw,2rem);border-radius:var(--r-lg);
+  position:relative;min-height:44px;
+}
+.wreck__sum::-webkit-details-marker{display:none}
+.wreck__sum:focus-visible{outline:3px solid var(--sky);outline-offset:-3px}
+
+.wreck__head{display:flex;align-items:flex-start;justify-content:space-between;gap:.9rem}
+.wreck__head .h3{font-family:var(--display);font-weight:600;font-size:clamp(1.2rem,2.4vw,1.5rem);line-height:1.25;color:#fff}
+
+/* «Что за корабль» — кликабельная подсказка-пилюля */
+.wreck__hint{
+  display:inline-flex;align-items:center;gap:.5rem;align-self:flex-start;
+  font:600 .8rem/1 var(--body);letter-spacing:.03em;
+  color:var(--ocean);background:var(--sky);
+  border-radius:var(--pill);padding:.65rem 1rem;
+  transition:background .25s var(--ease),transform .25s var(--ease),box-shadow .25s var(--ease);
+}
+.wreck__hint::after{
+  content:"";width:9px;height:9px;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:translateY(-2px) rotate(45deg);transition:transform .3s var(--ease);
+}
+.wreck:hover .wreck__hint{background:#fff;transform:translateY(-2px);box-shadow:0 8px 22px rgba(140,193,233,.34)}
+.wreck[open] .wreck__hint::after{transform:translateY(1px) rotate(-135deg)}
+
+/* --- раскрытое содержимое --- */
+.wreck__body{
+  padding:0 clamp(1.5rem,3.5vw,2rem) clamp(1.6rem,3.5vw,2.2rem);
+  display:grid;gap:1.6rem;
+}
+.wreck__hook{
+  margin:0;font-family:var(--display);font-style:italic;
+  font-size:clamp(1.12rem,2.4vw,1.45rem);line-height:1.4;color:#fff;
+  border-left:3px solid var(--sky);padding-left:1.1rem;max-width:56ch;
+}
+.wreck__cols{display:grid;gap:1.6rem}
+.wreck__story p{margin:0 0 .9em;font-size:.97rem;line-height:1.7;color:var(--sky)}
+.wreck__story p:last-child{margin-bottom:0}
+.wreck .h4{color:#fff;margin:0 0 .8rem}
+.wreck__mh{margin-top:.4rem}
+
+.wreck__specs{
+  background:rgba(140,193,233,.10);border:1px solid var(--line-dark);
+  border-radius:var(--r);padding:1.3rem;align-self:start;
+}
+.spec{margin:0 0 1.1rem;display:grid;grid-template-columns:auto 1fr;gap:.5rem 1rem}
+.spec dt{font:600 .78rem/1.4 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--sky);opacity:.75}
+.spec dd{margin:0;font-family:var(--display);font-weight:600;font-size:1.02rem;color:#fff}
+.spec__note{margin:0 0 .6rem;font-size:.85rem;color:var(--sky);opacity:.85}
+
+/* фото: aspect-ratio держит место, поэтому при загрузке ничего не прыгает */
+.wreck__shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+.wreck__shots img{
+  width:100%;aspect-ratio:4/3;object-fit:cover;
+  border-radius:var(--r);border:1px solid var(--line-dark);
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease);
+}
+.wreck__shots img:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(0,0,0,.34)}
+
+/* экскурсия: горизонтальная лента роликов */
+.tour{
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);
+  gap:.7rem;overflow-x:auto;padding-bottom:.6rem;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+}
+.tour__i{margin:0;scroll-snap-align:start;display:grid;gap:.5rem}
+.tour__i video{
+  width:100%;aspect-ratio:9/16;object-fit:cover;background:var(--ocean-3);
+  border-radius:var(--r);border:1px solid var(--line-dark);
+}
+.tour__i--lead{grid-row:span 1}
+.tour__i figcaption{
+  font:600 .74rem/1.35 var(--body);color:var(--sky);opacity:.9;
+}
+
+/* видео в галерее */
+.gal__v video{
+  width:100%;aspect-ratio:4/3;object-fit:cover;
+  background:var(--ocean);display:block;
+}
+
+@media (min-width:640px){
+  .wreck__shots{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media (min-width:980px){
+  /* Строкой шапка становится только у раскрытой карточки: в закрытом виде
+     она шириной в четверть сетки, и заголовок с ценой туда не помещаются. */
+  .wreck[open] .wreck__sum{flex-direction:row;align-items:center;justify-content:space-between;gap:1.4rem}
+  .wreck[open] .wreck__head{flex:1 1 auto;align-items:center}
+  .wreck__cols{grid-template-columns:1.35fr .65fr;gap:2.4rem}
+  .tour{grid-auto-columns:minmax(210px,1fr)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .wreck__shots img:hover{transform:none}
+  .tour{scroll-snap-type:none}
 }
