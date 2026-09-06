@@ -392,6 +392,10 @@ a{color:inherit}
   background:rgba(18,40,75,.82);backdrop-filter:blur(6px);color:var(--cloud);
   padding:.5rem .85rem;border-radius:var(--pill);
 }
+.gal__more{margin:1.9rem 0 0;display:flex;justify-content:center}
+.gal__more .btn{max-width:100%;line-height:1.35;text-align:center;padding-inline:1.6rem}
+.gal__more .btn svg{width:20px;height:20px;flex:0 0 auto}
+.gal__more .btn span{min-width:0}
 
 /* ---------------------------------------------------- отзывы: бегущая лента */
 .marquee{
