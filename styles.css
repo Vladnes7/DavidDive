@@ -181,7 +181,15 @@ a{color:inherit}
 .hdr.is-stuck .hdr__in{background:rgba(255,248,231,.95);box-shadow:0 10px 34px rgba(18,40,75,.16)}
 
 .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;flex:0 0 auto;min-height:44px;padding-block:2px}
-.brand svg{width:38px;height:38px;color:var(--ocean);flex:0 0 auto}
+/* Знак построен на негативном пространстве: волосы не нарисованы, это фон.
+   На тёмном фоне они читаются как шевелюра, на светлом — исчезают, и голова
+   выглядит лысой. Поэтому в шапке знак всегда на тёмной подложке, как в
+   фавиконке, а не перекрашивается в тёмный. */
+.brand svg{
+  width:34px;height:34px;flex:0 0 auto;
+  color:var(--cloud);background:var(--ocean);
+  padding:3px;border-radius:11px;box-sizing:content-box;
+}
 .brand__t{font-family:var(--display);font-weight:600;font-size:1.05rem;letter-spacing:.01em;line-height:1.05;color:var(--ocean)}
 .brand__t i{display:block;font:500 .62rem/1.4 var(--body);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
 
