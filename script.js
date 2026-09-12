@@ -178,7 +178,6 @@
   }
 
   var img = document.getElementById('lbImg');
-  var cap = document.getElementById('lbCap');
   var num = document.getElementById('lbN');
   var prev = document.getElementById('lbP');
   var next = document.getElementById('lbNx');
@@ -197,7 +196,6 @@
     var d = srcOf(idx);
     img.setAttribute('src', d.src);
     img.setAttribute('alt', d.alt);
-    cap.textContent = d.alt;
     num.textContent = (idx + 1) + ' / ' + btns.length;
     // подгрузить соседей, чтобы листалось без паузы
     [idx - 1, idx + 1].forEach(function (j) {
