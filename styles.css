@@ -837,7 +837,7 @@ a{color:inherit}
   background:rgba(140,193,233,.10);border:1px solid var(--line-dark);
   border-radius:var(--r);padding:1.3rem;align-self:start;
 }
-.spec{margin:0 0 1.1rem;display:grid;grid-template-columns:auto 1fr;gap:.5rem 1rem}
+.spec{margin:0 0 1.1rem;display:grid;grid-template-columns:auto minmax(0,1fr);gap:.5rem 1rem}
 .spec dt{font:600 .78rem/1.4 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--sky);opacity:.75}
 .spec dd{margin:0;font-family:var(--display);font-weight:600;font-size:1.02rem;color:#fff}
 .spec__note{margin:0 0 .6rem;font-size:.85rem;color:var(--sky);opacity:.85}
@@ -888,4 +888,126 @@ a{color:inherit}
 @media (prefers-reduced-motion:reduce){
   .wreck__shots img:hover{transform:none}
   .tour{scroll-snap-type:none}
+}
+
+/* ==================================================== раунд правок №3 */
+
+/* --- снаряжение оплачивается отдельно: метка на карточках --- */
+.card__note{margin:-.3rem 0 0;font-size:.82rem;line-height:1.4;opacity:.85}
+.band--ocean .card__note{color:var(--sky)}
+.band--cream .card__note{color:var(--ink-soft)}
+.lnk{color:inherit;text-underline-offset:.22em;text-decoration-thickness:1px}
+.lnk:hover{color:var(--white)}
+
+/* --- «Где ныряем» --- */
+.geo__lead{margin:0 0 1rem;font-size:.95rem;color:var(--sky)}
+
+/* --- как проходит погружение --------------------------------------- */
+.how{display:grid;gap:1.8rem;margin-top:2rem}
+
+.how__steps{margin:0;padding:0;list-style:none;counter-reset:st;position:relative}
+/* одна непрерывная нить на весь список: по-шаговая рвалась на коротких пунктах,
+   потому что они ниже кружка с номером */
+.how__steps::before{
+  content:"";position:absolute;left:1.2rem;top:1.2rem;bottom:1.2rem;
+  width:2px;transform:translateX(-1px);
+  background:linear-gradient(var(--bird),rgba(67,139,196,.16));
+}
+.how__steps li{counter-increment:st;position:relative;min-height:2.4rem;padding:0 0 1.6rem 3.7rem}
+.how__steps li:last-child{padding-bottom:0}
+.how__steps li::before{
+  content:counter(st);position:absolute;left:0;top:0;
+  width:2.4rem;height:2.4rem;border-radius:50%;
+  display:grid;place-items:center;
+  font:700 .95rem/1 var(--body);color:#fff;background:var(--berry);
+}
+.how__t{margin:.4rem 0 0;font:600 1.05rem/1.3 var(--body);color:var(--ink)}
+.how__steps p{margin:.3rem 0 0;font-size:.95rem;line-height:1.55;color:var(--ink-soft)}
+
+.how__dur{margin:1.9rem 0 0;max-width:64ch;font-size:.98rem;line-height:1.6;color:var(--ink-soft)}
+.how__dur b{color:var(--ink);font-weight:700}
+
+.safe{
+  margin:0;padding:clamp(1.4rem,3vw,1.8rem);
+  border-radius:var(--r-lg);
+  background:var(--cream-2);border:1px solid var(--line-light);
+}
+.safe__t{margin:0 0 .9rem;font:700 1.05rem/1.35 var(--body);color:var(--ink)}
+.safe__l{margin:0;padding:0;list-style:none;display:grid;gap:.75rem}
+.safe__l li{position:relative;padding-left:1.6rem;font-size:.95rem;line-height:1.5;color:var(--ink-soft)}
+.safe__l li::before{
+  content:"";position:absolute;left:0;top:.42em;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--berry);box-shadow:0 0 0 3px rgba(0,85,160,.16);
+}
+
+@media (min-width:900px){
+  .how{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:2.6rem;align-items:start}
+}
+
+/* --- галерея: фотография — настоящая кнопка ------------------------- */
+.gal__b{
+  display:block;width:100%;padding:0;margin:0;border:0;
+  background:none;cursor:zoom-in;border-radius:inherit;
+  -webkit-tap-highlight-color:transparent;
+}
+.gal__b:focus-visible{outline:3px solid var(--berry);outline-offset:4px;border-radius:var(--r-lg)}
+
+/* --- лайтбокс ------------------------------------------------------- */
+.lb{
+  width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;
+  margin:0;padding:0;border:0;background:transparent;
+  overflow:hidden;color:var(--cloud);
+}
+.lb::backdrop{background:rgba(8,18,36,.95);backdrop-filter:blur(5px)}
+.lb[open]{animation:lbIn .26s var(--ease)}
+@keyframes lbIn{from{opacity:0}to{opacity:1}}
+
+.lb__stage{position:absolute;inset:0;display:grid;place-items:center;
+  padding:4.2rem clamp(.75rem,4vw,5rem) 7rem}
+.lb__img{
+  max-width:100%;max-height:100%;width:auto;height:auto;
+  object-fit:contain;border-radius:var(--r);
+  box-shadow:0 30px 80px rgba(0,0,0,.5);
+}
+.lb__cap{
+  position:absolute;left:0;right:0;bottom:3.7rem;margin:0;
+  padding:0 clamp(1rem,5vw,6rem);text-align:center;
+  font-size:.87rem;line-height:1.45;color:rgba(255,248,231,.85);
+}
+.lb__n{
+  position:absolute;left:0;right:0;bottom:1.95rem;margin:0;text-align:center;
+  font:600 .78rem/1 var(--body);letter-spacing:.12em;color:rgba(255,248,231,.5);
+}
+
+.lb__x,.lb__a{
+  position:absolute;z-index:2;display:grid;place-items:center;
+  width:52px;height:52px;padding:0;border-radius:var(--pill);cursor:pointer;
+  color:var(--cloud);background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.30);backdrop-filter:blur(8px);
+  transition:background .25s var(--ease),transform .25s var(--ease);
+}
+.lb__x svg,.lb__a svg{width:24px;height:24px}
+.lb__x:hover,.lb__a:hover{background:rgba(255,255,255,.22)}
+.lb__x:focus-visible,.lb__a:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+.lb__x{top:.85rem;right:clamp(.75rem,3vw,1.5rem)}
+/* на телефоне стрелки уходят в нижнюю панель, чтобы не лежать на фото */
+.lb__a{bottom:.85rem}
+.lb__a--p{left:clamp(.75rem,4vw,1.5rem)}
+.lb__a--n{right:clamp(.75rem,4vw,1.5rem)}
+
+@media (min-width:700px){
+  .lb__stage{padding:clamp(3.5rem,9vh,5rem) clamp(4.5rem,9vw,7rem) clamp(4.5rem,11vh,6rem)}
+  .lb__a{top:50%;bottom:auto;transform:translateY(-50%)}
+  .lb__a:hover{transform:translateY(-50%) scale(1.06)}
+  .lb__n{bottom:1.1rem}
+  .lb__cap{bottom:2.7rem;font-size:.92rem}
+  @media (prefers-reduced-motion:reduce){
+    .lb__a:hover{transform:translateY(-50%)}
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .lb[open]{animation:none}
+  .lb__x,.lb__a{transition:none}
 }
