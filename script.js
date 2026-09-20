@@ -19,25 +19,52 @@
   var burger = $('#burger');
   var menu = $('#menu');
 
+  function menuOpen() { return burger.getAttribute('aria-expanded') === 'true'; }
+
   function setMenu(open) {
     burger.setAttribute('aria-expanded', String(open));
     menu.hidden = !open;
     document.body.style.overflow = open ? 'hidden' : '';
+    /* Меню закрывает собой всю страницу, поэтому и фокус должен жить внутри
+       него: иначе с клавиатуры человек уходит на ссылки под тёмным экраном
+       и жмёт то, чего не видит. */
+    if (open) {
+      var first = $('a', menu);
+      if (first) first.focus();
+    }
   }
-  burger.addEventListener('click', function () {
-    setMenu(burger.getAttribute('aria-expanded') !== 'true');
-  });
+  burger.addEventListener('click', function () { setMenu(!menuOpen()); });
   $$('a', menu).forEach(function (a) {
     a.addEventListener('click', function () { setMenu(false); });
   });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
+    if (e.key === 'Escape' && menuOpen()) {
       setMenu(false);
       burger.focus();
     }
   });
-  var wide = window.matchMedia('(min-width: 980px)');
-  function onWide(e) { if (e.matches) setMenu(false); }
+  /* Tab по кругу: бургер → пункты меню → снова бургер. */
+  menu.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab' || !menuOpen()) return;
+    var stops = [burger].concat($$('a', menu));
+    var i = stops.indexOf(document.activeElement);
+    if (i === -1) return;
+    var next = e.shiftKey ? i - 1 : i + 1;
+    if (next < 0) next = stops.length - 1;
+    if (next >= stops.length) next = 0;
+    e.preventDefault();
+    stops[next].focus();
+  });
+  burger.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab' || !menuOpen()) return;
+    var links = $$('a', menu);
+    if (!links.length) return;
+    e.preventDefault();
+    (e.shiftKey ? links[links.length - 1] : links[0]).focus();
+  });
+  /* Порог тот же, что в styles.css: на 1260 бургер сменяется меню в шапке. */
+  var wide = window.matchMedia('(min-width: 1260px)');
+  function onWide(e) { if (e.matches && menuOpen()) setMenu(false); }
   wide.addEventListener ? wide.addEventListener('change', onWide) : wide.addListener(onWide);
 
   /* ------------------------------- бегущая лента: клонируем карточки в дубль
@@ -53,6 +80,17 @@
     /* длительность пропорциональна числу карточек, чтобы скорость не прыгала */
     var n = rows[0].children.length || 1;
     mq.style.setProperty('--dur', (n * 11) + 's');
+  }
+
+  /* Кнопка «Остановить / Продолжить». Ховер-пауза остаётся для мыши, но с
+     телефона остановить ленту иначе нечем. */
+  var mqBtn = $('#mqBtn');
+  if (mqBtn && mq) {
+    mqBtn.addEventListener('click', function () {
+      var paused = mq.classList.toggle('is-paused');
+      mqBtn.setAttribute('aria-pressed', String(paused));
+      $('.mqbtn__t', mqBtn).textContent = paused ? 'Продолжить' : 'Остановить';
+    });
   }
 
   /* --------------------------------------------------------- скролл-логика */
@@ -83,7 +121,11 @@
     }
     if (cur && cur.id) {
       navLinks.forEach(function (a) {
-        a.classList.toggle('is-active', a.getAttribute('href') === '#' + cur.id);
+        var on = a.getAttribute('href') === '#' + cur.id;
+        a.classList.toggle('is-active', on);
+        /* aria-current озвучивает скринридеру то же, что подсветка — глазу */
+        if (on) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
       });
     }
     ticking = false;
@@ -152,11 +194,32 @@
                 '_blank', 'noopener');
   });
 
-  /* Кнопка Telegram несёт тот же текст, если форма уже заполнена */
+  /* Кнопка Telegram.
+     Раньше сюда подставлялся «?text=...», но Телеграм этот параметр для
+     личных аккаунтов игнорирует: чат открывался пустым, а текст заявки
+     молча терялся. Поэтому текст кладём в буфер обмена и говорим об этом. */
   var tgBtn = $('#tgBtn');
+  var tgHint = $('#tgHint');
+
+  function hint(text) {
+    if (!tgHint) return;
+    tgHint.textContent = text;
+    clearTimeout(hint.t);
+    hint.t = setTimeout(function () { tgHint.textContent = ''; }, 6000);
+  }
+
   tgBtn.addEventListener('click', function () {
     if (!nameI.value.trim()) return;
-    tgBtn.setAttribute('href', 'https://t.me/DriverDM?text=' + encodeURIComponent(buildText()));
+    var text = buildText();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        hint('Текст заявки скопирован — вставьте его в чат.');
+      }, function () {
+        hint('Скопировать не вышло — напишите Давиду в чате пару слов о себе.');
+      });
+    } else {
+      hint('Напишите Давиду в чате пару слов о себе — он ответит.');
+    }
   });
 })();
 

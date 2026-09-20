@@ -12,7 +12,13 @@
 <meta property="og:locale" content="ru_RU">
 <meta property="og:title" content="Дайвинг в Сириусе без группы — Diving David">
 <meta property="og:description" content="Индивидуальные погружения и курсы CMAS в Сириусе, Сочи, Хосте и Адлере.">
-<meta property="og:image" content="img/hero.jpg">
+<!-- Картинка превью в мессенджерах обязана быть полным адресом, не «img/hero.jpg»:
+     иначе Telegram и WhatsApp не находят её и показывают ссылку без картинки.
+     Когда подключим домен divingdavid.ru — заменить здесь и в og:url ниже. -->
+<meta property="og:url" content="https://vladnes7.github.io/DavidDive/">
+<meta property="og:image" content="https://vladnes7.github.io/DavidDive/img/hero.jpg">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="719">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="img/logo-duo.svg" type="image/svg+xml">
@@ -20,8 +26,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Шрифты подключены здесь, а не через @import внутри styles.css: из CSS браузер
+     узнаёт о них только после загрузки стилей, и текст дольше стоит без шрифта. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
 <link rel="preload" as="image" href="img/hero.jpg" fetchpriority="high">
-<link rel="stylesheet" href="styles.css?v=7f12849b">
+<link rel="stylesheet" href="styles.css?v=479309ba">
 </head>
 <body>
 
@@ -42,8 +51,10 @@
       <a href="#dives">Погружения</a>
       <a href="#courses">Курсы</a>
       <a href="#masterclass">Мастер-классы</a>
+      <a href="#gallery">Галерея</a>
       <a href="#reviews">Отзывы</a>
       <a href="#geo">Где ныряем</a>
+      <a href="#rental">Аренда</a>
       <a href="#faq">FAQ</a>
     </nav>
 
@@ -182,19 +193,24 @@
         <li><h3 class="how__t">Выходим на берег</h3></li>
       </ol>
 
-      <aside class="safe">
-        <h3 class="safe__t">Ваша безопасность — прежде всего</h3>
-        <ul class="safe__l">
-          <li>Индивидуальное сопровождение инструктора</li>
-          <li>Глубина и маршрут подбираются по уровню подготовки</li>
-          <li>Зависит от состояния моря и вашей подготовки к погружению в таких условиях</li>
-        </ul>
-      </aside>
-    </div>
+      <div class="how__side">
+        <aside class="safe">
+          <h3 class="safe__t">Ваша безопасность — прежде всего</h3>
+          <ul class="safe__l">
+            <li>Индивидуальное сопровождение инструктора</li>
+            <li>Глубина и маршрут подбираются по уровню подготовки</li>
+            <li>Возможность погружения зависит от состояния моря и вашей подготовки к таким условиям</li>
+          </ul>
+        </aside>
 
-    <p class="how__dur rise">В среднем — около 3 часов,
-      если это одно погружение с одним человеком. Если погружений несколько или
-      формат другой — длительность уточняется отдельно.</p>
+        <aside class="safe safe--dur">
+          <h3 class="safe__t">Сколько это занимает</h3>
+          <p class="how__dur">В среднем — около 3 часов,
+            если это одно погружение с одним человеком. Если погружений несколько или
+            формат другой — длительность уточняется отдельно.</p>
+        </aside>
+      </div>
+    </div>
   </div>
 </section>
 <!-- ========================= РАЗОВЫЕ ПОГРУЖЕНИЯ ========================= -->
@@ -203,8 +219,8 @@
     <div class="head rise">
       <p class="eyebrow">Разовые погружения</p>
       <h2 class="h2">Нырнуть один раз</h2>
-      <p class="note">Цены ориентировочные. При бронировании уточните актуальную цену и условия погружения по телефону, в Telegram или WhatsApp.</p>
       <p class="lede">Снаряжение в стоимость не входит и оплачивается отдельно — полный комплект или только те позиции, которых не хватает. Цены — в разделе <a class="lnk" href="#rental">«Аренда и обслуживание»</a>.</p>
+      <p class="note">Цены ориентировочные. При бронировании уточните актуальную цену и условия погружения по телефону, в Telegram или WhatsApp.</p>
     </div>
 
     <div class="cards cards--4 rise">
@@ -392,8 +408,8 @@
     <div class="head rise">
       <p class="eyebrow">Мастер-классы</p>
       <h2 class="h2">Индивидуальные мастер-классы</h2>
-      <p class="note">Цены ориентировочные. При бронировании уточните актуальную цену и условия погружения по телефону, в Telegram или WhatsApp.</p>
       <p class="lede">Занятие на целый день, несколько погружений. Снаряжение оплачивается отдельно.</p>
+      <p class="note">Цены ориентировочные. При бронировании уточните актуальную цену и условия погружения по телефону, в Telegram или WhatsApp.</p>
     </div>
 
     <div class="mkgrid rise">
@@ -464,7 +480,6 @@
       <figure><button class="gal__b" type="button"><img src="img/pv-1.jpg" width="1100" height="946" loading="lazy" decoding="async" alt="Дайвер с фонарём у обросшего борта «Перванша»"></button></figure>
       <figure><button class="gal__b" type="button"><img src="img/pv-4.jpg" width="1100" height="946" loading="lazy" decoding="async" alt="Дайвер с фонарём вдоль борта затонувшего парохода"></button></figure>
       <figure class="gal__v"><video preload="none" playsinline controls poster="img/poster-1.jpg" aria-label="Корпус рэка «Перванш»"><source src="video/wreck-wide-1.mp4" type="video/mp4"></video></figure>
-      <figure class="gal__v"><video preload="none" playsinline controls poster="img/poster-8.jpg" aria-label="Общий план рэка «Перванш»"><source src="video/wreck-wide-2.mp4" type="video/mp4"></video></figure>
       <figure><button class="gal__b" type="button"><img src="img/gal-5.jpg" width="1100" height="962" loading="lazy" decoding="async" alt="Дайвер с фонарём над рэком показывает знак победы"></button></figure>
       <figure><button class="gal__b" type="button"><img src="img/gal-6.jpg" width="1100" height="962" loading="lazy" decoding="async" alt="Два дайвера с фонарями в зелёной воде"></button></figure>
       <figure><button class="gal__b" type="button"><img src="img/gal-7.jpg" width="962" height="1100" loading="lazy" decoding="async" alt="Дайвер с фонарём в толще зелёной воды"></button></figure>
@@ -472,6 +487,7 @@
       <figure><button class="gal__b" type="button"><img src="img/g-egypt-1.jpg" width="900" height="787" loading="lazy" decoding="async" alt="Дайвер парит над коралловым садом"></button></figure>
       <figure><button class="gal__b" type="button"><img src="img/gal-4.jpg" width="1100" height="962" loading="lazy" decoding="async" alt="Два дайвера у поверхности после погружения"></button></figure>
       <figure><button class="gal__b" type="button"><img src="img/g-egypt-4.jpg" width="900" height="1029" loading="lazy" decoding="async" alt="Группа дайверов идёт вдоль кораллового рифа на глубине"></button></figure>
+      <figure class="gal__v"><video preload="none" playsinline controls poster="img/poster-8.jpg" aria-label="Общий план рэка «Перванш»"><source src="video/wreck-wide-2.mp4" type="video/mp4"></video></figure>
       <figure><button class="gal__b" type="button"><img src="img/gal-2.jpg" width="1100" height="962" loading="lazy" decoding="async" alt="Дайвер у кораллового рифа, рядом второй дайвер с баллоном"></button></figure>
       <figure><button class="gal__b" type="button"><img src="img/gal-3.jpg" width="1100" height="962" loading="lazy" decoding="async" alt="Два дайвера в синей воде над рифом"></button></figure>
       <figure><button class="gal__b" type="button"><img src="img/g-egypt-6.jpg" width="900" height="787" loading="lazy" decoding="async" alt="Дайвер с фонарём осматривает отвесную коралловую стену"></button></figure>
@@ -485,9 +501,18 @@
 <!-- ============================== ОТЗЫВЫ ============================== -->
 <section class="band band--ocean" id="reviews">
   <div class="wrap">
-    <div class="head rise">
-      <p class="eyebrow">Отзывы</p>
-      <h2 class="h2">Что пишут ученики</h2>
+    <div class="head head--row rise">
+      <div>
+        <p class="eyebrow">Отзывы</p>
+        <h2 class="h2">Что пишут ученики</h2>
+      </div>
+      <!-- Лента едет сама, поэтому остановить её нужно уметь и пальцем, а не только
+           наведением мыши: на телефоне ховера нет. -->
+      <button class="mqbtn" id="mqBtn" type="button" aria-pressed="false" aria-controls="marquee">
+        <svg class="mqbtn__i mqbtn__i--pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="5" width="4" height="14" rx="1.4" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1.4" fill="currentColor"/></svg>
+        <svg class="mqbtn__i mqbtn__i--play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5l11 6.5-11 6.5z" fill="currentColor"/></svg>
+        <span class="mqbtn__t">Остановить</span>
+      </button>
     </div>
   </div>
 
@@ -528,7 +553,7 @@
 </section>
 
 <!-- ============================= ГЕОГРАФИЯ ============================= -->
-<section class="band band--ocean band--tight" id="geo" style="padding-top:0">
+<section class="band band--ocean band--tight" id="geo">
   <div class="wrap">
     <div class="head rise">
       <p class="eyebrow">Где ныряем</p>
@@ -552,8 +577,8 @@
     <div class="head rise">
       <p class="eyebrow">Снаряжение</p>
       <h2 class="h2">Аренда и обслуживание</h2>
-      <p class="note">Цены ориентировочные. При бронировании уточните актуальную цену и условия погружения по телефону, в Telegram или WhatsApp.</p>
       <p class="lede">Аренда снаряжения — в сутки.</p>
+      <p class="note">Цены ориентировочные. При бронировании уточните актуальную цену и условия погружения по телефону, в Telegram или WhatsApp.</p>
     </div>
 
     <article class="card card--wide rise">
@@ -604,7 +629,7 @@
 </section>
 
 <!-- =============================== FAQ =============================== -->
-<section class="band band--cream" id="faq" style="padding-top:0">
+<section class="band band--cream" id="faq">
   <div class="wrap">
     <div class="head rise">
       <p class="eyebrow">Вопросы</p>
@@ -726,7 +751,9 @@
           <a class="btn btn--outline" id="telBtn" href="tel:+79262150886">Позвонить</a>
         </div>
 
-        <p class="form__note">Нажимая кнопку, вы просто открываете мессенджер с текстом заявки. Никакие данные не сохраняются на сайте.</p>
+        <p class="form__hint" id="tgHint" role="status"></p>
+
+        <p class="form__note">Кнопка WhatsApp открывает мессенджер с уже набранным текстом заявки. Для Telegram текст заявки копируется в буфер — останется вставить его в чат. Никакие данные не сохраняются на сайте.</p>
       </form>
 
       <aside class="rise" style="display:grid;gap:1rem;align-content:start">
@@ -775,12 +802,14 @@
 
       <div>
         <h4>Контакты</h4>
-        <address class="fcontact">
+        <address>
+        <ul class="fcontact">
           <li><a href="tel:+79262150886"><svg aria-hidden="true"><use href="#i-phone"></use></svg>+7 926 215 08 86</a></li>
           <li><a href="https://wa.me/79262150886" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"></use></svg>WhatsApp</a></li>
           <li><a href="https://t.me/DriverDM" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-tg"></use></svg>Telegram — заявки</a></li>
           <li><a href="https://t.me/diving_david" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-tgc"></use></svg>Telegram-канал</a></li>
           <li><a href="https://instagram.com/diving_david" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-ig"></use></svg>Instagram</a></li>
+        </ul>
         </address>
       </div>
 
@@ -832,7 +861,7 @@
   "@type":"SportsActivityLocation",
   "name":"Diving David — индивидуальный дайвинг в Сириусе и Сочи",
   "description":"Индивидуальные погружения и курсы CMAS в Сириусе, Сочи, Хосте и Адлере.",
-  "image":"img/hero.jpg",
+  "image":"https://vladnes7.github.io/DavidDive/img/hero.jpg",
   "telephone":"+79262150886",
   "areaServed":["Сириус","Сочи","Хоста","Адлер"],
   "address":{"@type":"PostalAddress","addressLocality":"Сириус","addressRegion":"Краснодарский край","addressCountry":"RU"},
@@ -851,6 +880,6 @@
 }
 </script>
 
-<script src="script.js?v=1729481b" defer></script>
+<script src="script.js?v=479309ba" defer></script>
 </body>
 </html>
