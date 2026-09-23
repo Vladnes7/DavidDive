@@ -30,7 +30,7 @@
      узнаёт о них только после загрузки стилей, и текст дольше стоит без шрифта. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
 <link rel="preload" as="image" href="img/hero.jpg" fetchpriority="high">
-<link rel="stylesheet" href="styles.css?v=479309ba">
+<link rel="stylesheet" href="styles.css?v=683774b8">
 </head>
 <body>
 
@@ -94,12 +94,6 @@
       <a class="btn btn--primary" href="#contact">Записаться на погружение</a>
       <a class="btn btn--ghost" href="#courses">Начать с курса или пробного погружения</a>
     </div>
-
-    <ul class="hero__meta">
-      <li>CMAS 2★ Instructor</li>
-      <li>Nitrox Instructor</li>
-      <li>1000+ погружений</li>
-    </ul>
   </div>
 </section>
 
@@ -134,14 +128,6 @@
         <p>Затем я получил 2★, побывал в Египте, на Мальдивах, в Турции, Австралии. В 2023 году дайвинг из увлечения превратился в профессию, от которой я получаю удовольствие каждое погружение, и я с радостью делюсь своими знаниями и опытом с людьми. Сейчас у меня больше 1000 погружений.</p>
         <p>Первое правило дайвинга — безопасность и удовольствие, а комфорт дают навыки, которые я передаю не только в бассейне, но и в открытом море.</p>
         <p class="sign">Увидимся под водой!</p>
-
-        <ul class="creds">
-          <li>CMAS 2★ Star Instructor</li>
-          <li>Nitrox Instructor</li>
-          <li>1000+ погружений</li>
-          <li>с 2010 года</li>
-          <li>RU · EN · ES · FR</li>
-        </ul>
       </div>
     </div>
   </div>
@@ -178,6 +164,8 @@
     </div>
 
     <div class="how rise">
+      <div class="how__flows">
+      <h3 class="sub" style="margin-top:0">Разовое погружение — если сертификат уже есть</h3>
       <ol class="how__steps">
         <li>
           <h3 class="how__t">Созваниваемся и бронируем</h3>
@@ -187,11 +175,27 @@
           <h3 class="how__t">Подбираем снаряжение</h3>
           <p>По вашим размерам, по возможности — заранее, на примерке.</p>
         </li>
-        <li><h3 class="how__t">Встречаемся на берегу</h3></li>
+        <li>
+          <h3 class="how__t">Встречаемся</h3>
+          <p>Не обязательно на берегу — иногда удобнее сделать трансфер, решаем по ситуации.</p>
+        </li>
         <li><h3 class="how__t">Инструктаж</h3></li>
         <li><h3 class="how__t">Погружаемся</h3></li>
         <li><h3 class="how__t">Выходим на берег</h3></li>
+        <li><h3 class="how__t">Решаем, продолжать ли</h3></li>
       </ol>
+
+      <h3 class="sub">Discover Scuba Diving — если ныряете первый раз</h3>
+      <ol class="how__steps">
+        <li><h3 class="how__t">Знакомство и инструктаж</h3></li>
+        <li><h3 class="how__t">Занятия в бассейне</h3></li>
+        <li><h3 class="how__t">Погружение в открытой воде</h3></li>
+        <li>
+          <h3 class="how__t">1–2 дня</h3>
+          <p>Зависит от темпа — снаряжение уже включено в стоимость программы.</p>
+        </li>
+      </ol>
+      </div>
 
       <div class="how__side">
         <aside class="safe">
@@ -205,9 +209,9 @@
 
         <aside class="safe safe--dur">
           <h3 class="safe__t">Сколько это занимает</h3>
-          <p class="how__dur">В среднем — около 3 часов,
-            если это одно погружение с одним человеком. Если погружений несколько или
-            формат другой — длительность уточняется отдельно.</p>
+          <p class="how__dur">Под водой — около часа, зависит от глубины и вашего
+            расхода воздуха. Вся встреча целиком, со сборами и инструктажем, — около
+            3 часов, если это одно погружение. Погружений несколько — время уточняется отдельно.</p>
         </aside>
       </div>
     </div>
@@ -310,6 +314,13 @@
         <div class="card__top"><h3 class="h3">Индивидуальное ночное погружение</h3></div>
         <p class="card__price">11 000&nbsp;₽</p>
         <p class="card__note">Снаряжение оплачивается отдельно</p>
+      </article>
+
+      <article class="card">
+        <div class="card__top"><h3 class="h3">Поиск и подъём предметов</h3></div>
+        <p class="card__price card__price--sm">от 15 000&nbsp;₽</p>
+        <p>Выезд на поиск потерянных в воде предметов и оборудования — телефоны, снаряжение и другое. Большой опыт и ориентир на результат.</p>
+        <p class="card__note">Цена — по локации, включает 1 погружение. При успехе — доплата 5 000 ₽ либо 10% от стоимости найденного</p>
       </article>
     </div>
 
@@ -519,30 +530,35 @@
   <div class="marquee rise" id="marquee">
     <div class="marquee__row">
       <article class="rev">
+        <button class="rev__b" type="button" aria-label="Читать целиком — отзыв Михаила"></button>
         <div class="rev__h"><span class="rev__av" aria-hidden="true">М</span><span class="rev__n">Михаил</span></div>
         <div class="rev__stars" role="img" aria-label="5 из 5"><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg></div>
         <blockquote>«Отличный инструктор, дал максимально быстро весь объём знаний для сдачи экзамена. Сдал с первого раза теорию и практику в открытой воде на глубине 16 метров, все документы получил. Теперь приведу к Давиду всю семью на обучение.»</blockquote>
       </article>
 
       <article class="rev">
+        <button class="rev__b" type="button" aria-label="Читать целиком — отзыв Натальи"></button>
         <div class="rev__h"><span class="rev__av" aria-hidden="true">Н</span><span class="rev__n">Наталья</span></div>
         <div class="rev__stars" role="img" aria-label="5 из 5"><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg></div>
         <blockquote>«Есть страх воды. Первый раз сделали тренировочный заход в бассейне, чтобы мои страхи ушли. Днём всё так хорошо сложилось, что я согласилась и на ночной дайв — ночью вся живность плывёт на фонарь, это очень круто!»</blockquote>
       </article>
 
       <article class="rev">
+        <button class="rev__b" type="button" aria-label="Читать целиком — отзыв Анны"></button>
         <div class="rev__h"><span class="rev__av" aria-hidden="true">А</span><span class="rev__n">Анна</span></div>
         <div class="rev__stars" role="img" aria-label="5 из 5"><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg></div>
         <blockquote>«Давид очень грамотный, внимательный и спокойный, его уверенность передаётся и тому, кто с ним ныряет. В процессе погружения контролировал всё происходящее, было чувство полной безопасности. Погружения в Сочи только с ним.»</blockquote>
       </article>
 
       <article class="rev">
+        <button class="rev__b" type="button" aria-label="Читать целиком — отзыв Игоря"></button>
         <div class="rev__h"><span class="rev__av" aria-hidden="true">И</span><span class="rev__n">Игорь</span></div>
         <div class="rev__stars" role="img" aria-label="5 из 5"><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg></div>
         <blockquote>«Настоятельно рекомендую обратиться к лучшему профессиональному дайверу на моей памяти. Давид очень опытный специалист своего дела и любит дайвинг всеми фибрами (жабрами) своей души. Я остался очень доволен своим погружением.»</blockquote>
       </article>
 
       <article class="rev">
+        <button class="rev__b" type="button" aria-label="Читать целиком — отзыв Ольги"></button>
         <div class="rev__h"><span class="rev__av" aria-hidden="true">О</span><span class="rev__n">Ольга</span></div>
         <div class="rev__stars" role="img" aria-label="5 из 5"><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg><svg><use href="#st"></use></svg></div>
         <blockquote>«Отдельно хочу отметить внимание и терпение со стороны Давида. Сложнейшие, как оказалось, для меня упражнения были отработаны до автоматизма в бассейне, а в море сданы нормативы для получения 1 звезды — и сданы успешно! Всё предоставляемое оборудование высококачественное, надёжное и современное.»</blockquote>
@@ -558,15 +574,14 @@
     <div class="head rise">
       <p class="eyebrow">Где ныряем</p>
       <h2 class="h2">Точки на побережье</h2>
-      <p class="lede">Постоянной базы нет — приезжаю туда, где в этот день лучше погружаться. Точную точку встречи присылаю перед погружением: выбираю исходя из условий дня.</p>
+      <p class="lede">Работаю в этих локациях. Точку встречи выбираем вместе — по погоде и вашим пожеланиям.</p>
     </div>
 
-    <p class="geo__lead rise">Работаем в этих локациях:</p>
     <div class="geo rise">
-      <div class="geo__i"><b>Сириус</b><span>Чаще всего</span></div>
+      <div class="geo__i"><b>Сириус</b></div>
       <div class="geo__i"><b>Адлер</b></div>
       <div class="geo__i"><b>Хоста</b></div>
-      <div class="geo__i"><b>Сочи</b><span>По согласованию</span></div>
+      <div class="geo__i"><b>Сочи</b></div>
     </div>
   </div>
 </section>
@@ -643,11 +658,11 @@
       </details>
       <details>
         <summary>Что взять с собой?</summary>
-        <p>Купальник или плавки, полотенце, сменную одежду и воду. Снаряжение есть у меня — гидрокостюм, маска, ласты, компенсатор, регулятор, баллон. В стоимость погружения оно не входит: оплачивается отдельно, можно взять полный комплект, а можно только то, чего не хватает. Исключение — Discover Scuba Diving, там снаряжение уже включено в цену.</p>
+        <p>Купальник или плавки, полотенце, сменную одежду и воду. Всё остальное снаряжение — по договорённости, если необходимо, предоставляется в аренду (подробности и цены — в разделе «Аренда и обслуживание»). Исключение — Discover Scuba Diving: там снаряжение уже включено в цену услуги.</p>
       </details>
       <details>
         <summary>Сколько длится погружение?</summary>
-        <p>В среднем — около 3 часов, если это одно погружение с одним человеком. Если погружений несколько или формат другой — длительность уточняется отдельно.</p>
+        <p>Под водой мы проводим около часа — точнее зависит от глубины и вашего расхода воздуха. А вот вся встреча целиком, с учётом подбора снаряжения, инструктажа и выхода на берег, занимает около 3 часов, если это одно погружение. Погружений несколько или формат другой — время уточняется отдельно.</p>
       </details>
       <details>
         <summary>Когда сезон?</summary>
@@ -682,6 +697,7 @@
               <option>Погружение на рэк «Перванш», 20 м — 12 000 ₽</option>
               <option>Глубокое погружение до 30–40 м — 11 000–12 000 ₽</option>
               <option>Индивидуальное ночное погружение — 11 000 ₽</option>
+              <option>Поиск и подъём предметов — от 15 000 ₽</option>
             </optgroup>
             <optgroup label="Пробное и курсы">
               <option>Discover Scuba Diving — 20 000 ₽</option>
@@ -701,25 +717,7 @@
               <option>Глубоководная практика до 40 м — 30 000 ₽</option>
               <option>Анализ техники дайвера — 18 000 ₽</option>
             </optgroup>
-            <optgroup label="Аренда снаряжения">
-              <option>Стандартный комплект — 3 500 ₽/сутки</option>
-              <option>Гидрокостюм 5 мм — 1 000 ₽/сутки</option>
-              <option>Регулятор — 1 500 ₽/сутки</option>
-              <option>Жилет-компенсатор — 1 200 ₽/сутки</option>
-              <option>Дайв-компьютер — 1 200 ₽/сутки</option>
-              <option>Основной фонарь — 1 000 ₽/сутки</option>
-              <option>Ласты — 700 ₽/сутки</option>
-              <option>Боты — 700 ₽/сутки</option>
-              <option>Куртка-утеплитель — 700 ₽/сутки</option>
-              <option>Перчатки — 500 ₽/сутки</option>
-              <option>Маска — 500 ₽/сутки</option>
-              <option>Шлем — 500 ₽/сутки</option>
-              <option>Бэкап-фонарь — 500 ₽/сутки</option>
-              <option>Буй с катушкой — 500 ₽/сутки</option>
-              <option>Компас — 500 ₽/сутки</option>
-              <option>Сумка для снаряжения — 500 ₽/сутки</option>
-            </optgroup>
-            <optgroup label="Обслуживание">
+            <optgroup label="Обслуживание снаряжения">
               <option>Обслуживание регулятора в сборе — от 5 000 ₽</option>
               <option>Обслуживание другого снаряжения — по запросу</option>
             </optgroup>
@@ -727,6 +725,34 @@
               <option>Пока не решил, нужна консультация</option>
             </optgroup>
           </select>
+        </div>
+
+        <div class="field">
+          <label for="f-qty">Сколько погружений <span>— необязательно</span></label>
+          <input id="f-qty" name="qty" type="number" min="1" max="20" placeholder="1">
+        </div>
+
+        <div class="field">
+          <label for="f-gear">Нужна аренда снаряжения <span>— необязательно</span></label>
+          <select id="f-gear" name="gear" multiple size="5">
+            <option>Стандартный комплект — 3 500 ₽/сутки</option>
+            <option>Гидрокостюм 5 мм — 1 000 ₽/сутки</option>
+            <option>Регулятор — 1 500 ₽/сутки</option>
+            <option>Жилет-компенсатор — 1 200 ₽/сутки</option>
+            <option>Дайв-компьютер — 1 200 ₽/сутки</option>
+            <option>Основной фонарь — 1 000 ₽/сутки</option>
+            <option>Ласты — 700 ₽/сутки</option>
+            <option>Боты — 700 ₽/сутки</option>
+            <option>Куртка-утеплитель — 700 ₽/сутки</option>
+            <option>Перчатки — 500 ₽/сутки</option>
+            <option>Маска — 500 ₽/сутки</option>
+            <option>Шлем — 500 ₽/сутки</option>
+            <option>Бэкап-фонарь — 500 ₽/сутки</option>
+            <option>Буй с катушкой — 500 ₽/сутки</option>
+            <option>Компас — 500 ₽/сутки</option>
+            <option>Сумка для снаряжения — 500 ₽/сутки</option>
+          </select>
+          <p class="form__hint" style="margin:.35rem 0 0">Можно выбрать несколько — зажмите Ctrl (Cmd на Mac) или проведите пальцем по списку на телефоне.</p>
         </div>
 
         <div class="field">
@@ -850,6 +876,29 @@
          stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
   </button>
 </dialog>
+
+<dialog class="lb lb--rev" id="revLb" aria-label="Просмотр отзыва">
+  <div class="lb__stage">
+    <article class="revCard">
+      <div class="rev__h"><span class="rev__av" id="revLbAv" aria-hidden="true"></span><span class="rev__n" id="revLbN"></span></div>
+      <div class="rev__stars" id="revLbStars" role="img"></div>
+      <blockquote id="revLbQ"></blockquote>
+    </article>
+  </div>
+  <p class="lb__n" id="revLbNum" aria-live="polite"></p>
+  <button class="lb__x" id="revLbX" type="button" aria-label="Закрыть отзыв">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button class="lb__a lb__a--p" id="revLbP" type="button" aria-label="Предыдущий отзыв">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <button class="lb__a lb__a--n" id="revLbNx" type="button" aria-label="Следующий отзыв">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+</dialog>
 <div class="dock" id="dock">
   <a class="btn btn--ghost" href="https://t.me/DriverDM" target="_blank" rel="noopener">Telegram</a>
   <a class="btn btn--primary" href="#contact">Записаться</a>
@@ -871,6 +920,7 @@
     {"@type":"Offer","name":"Индивидуальное погружение","price":"9000","priceCurrency":"RUB"},
     {"@type":"Offer","name":"Погружение на рэк «Перванш» (20 м)","price":"12000","priceCurrency":"RUB"},
     {"@type":"Offer","name":"Ночное погружение","price":"11000","priceCurrency":"RUB"},
+    {"@type":"Offer","name":"Поиск и подъём предметов","price":"15000","priceCurrency":"RUB"},
     {"@type":"Offer","name":"Discover Scuba Diving","price":"20000","priceCurrency":"RUB"},
     {"@type":"Offer","name":"CMAS 1 STAR DIVER","price":"75000","priceCurrency":"RUB"},
     {"@type":"Offer","name":"CMAS 2 STAR DIVER","price":"79000","priceCurrency":"RUB"},
@@ -880,6 +930,6 @@
 }
 </script>
 
-<script src="script.js?v=479309ba" defer></script>
+<script src="script.js?v=79e1bae7" defer></script>
 </body>
 </html>

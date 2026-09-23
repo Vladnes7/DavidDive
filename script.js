@@ -76,6 +76,8 @@
       rows[1].innerHTML = rows[0].innerHTML;
       /* дубль — чисто визуальный, из дерева доступности убираем */
       $$('[id]', rows[1]).forEach(function (el) { el.removeAttribute('id'); });
+      /* карточки отзыва — кнопки; в дубле они не должны ловить фокус табом */
+      $$('button', rows[1]).forEach(function (el) { el.tabIndex = -1; });
     }
     /* длительность пропорциональна числу карточек, чтобы скорость не прыгала */
     var n = rows[0].children.length || 1;
@@ -169,9 +171,13 @@
       'Имя: ' + nameI.value.trim(),
       'Интересует: ' + $('#f-svc').value
     ];
+    var qty  = $('#f-qty').value.trim();
+    var gear = $$('#f-gear option:checked').map(function (o) { return o.textContent; });
     var date = $('#f-date').value.trim();
     var exp  = $('#f-exp').value.trim();
     var msg  = $('#f-msg').value.trim();
+    if (qty && qty !== '1') lines.push('Сколько погружений: ' + qty);
+    if (gear.length) lines.push('Аренда снаряжения: ' + gear.join(', '));
     if (date) lines.push('Когда удобно: ' + date);
     if (exp)  lines.push('Опыт: ' + exp);
     if (msg)  lines.push('', 'Вопрос: ' + msg);
@@ -323,6 +329,121 @@
   });
 
   // свайп — в дополнение к кнопкам
+  var tx = 0, ty = 0, tracking = false;
+  stage.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { tracking = false; return; }
+    tracking = true; tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+  }, { passive: true });
+
+  stage.addEventListener('touchend', function (e) {
+    if (!tracking) return;
+    tracking = false;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - tx, dy = t.clientY - ty;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.6) step(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  dlg.addEventListener('close', tidy);
+})();
+
+/* ------------------------------------------------- отзывы: читать целиком
+   Тот же приём, что у фотогалереи: каждая карточка — кнопка, просмотр —
+   нативный <dialog>. Источник данных — только первый (живой) ряд ленты;
+   дубль для бесшовной прокрутки визуальный и в опросе не участвует. */
+(function () {
+  var dlg = document.getElementById('revLb');
+  var row = document.querySelector('#marquee .marquee__row');
+  var btns = row ? [].slice.call(row.querySelectorAll('.rev__b')) : [];
+  var cards = btns.map(function (b) { return b.closest('.rev'); });
+  if (!dlg || !cards.length) return;
+
+  if (typeof dlg.showModal !== 'function') {
+    btns.forEach(function (b) { b.style.cursor = 'default'; });
+    return;
+  }
+
+  var av = document.getElementById('revLbAv');
+  var nm = document.getElementById('revLbN');
+  var stars = document.getElementById('revLbStars');
+  var quote = document.getElementById('revLbQ');
+  var num = document.getElementById('revLbNum');
+  var prev = document.getElementById('revLbP');
+  var next = document.getElementById('revLbNx');
+  var close = document.getElementById('revLbX');
+  var stage = dlg.querySelector('.lb__stage');
+  var idx = 0;
+  var scrollY = 0;
+  var shut = true;
+
+  function dataOf(i) {
+    var c = cards[i];
+    var s = c.querySelector('.rev__stars');
+    return {
+      av: c.querySelector('.rev__av').textContent,
+      name: c.querySelector('.rev__n').textContent,
+      starsHtml: s.innerHTML,
+      starsLabel: s.getAttribute('aria-label') || '',
+      quote: c.querySelector('blockquote').textContent
+    };
+  }
+
+  function paint() {
+    var d = dataOf(idx);
+    av.textContent = d.av;
+    nm.textContent = d.name;
+    stars.innerHTML = d.starsHtml;
+    stars.setAttribute('aria-label', d.starsLabel);
+    quote.textContent = d.quote;
+    num.textContent = (idx + 1) + ' / ' + cards.length;
+  }
+
+  function step(d) {
+    idx = (idx + d + cards.length) % cards.length;
+    paint();
+  }
+
+  function open(i) {
+    idx = i;
+    paint();
+    scrollY = window.scrollY;
+    document.documentElement.style.overflow = 'hidden';
+    shut = false;
+    dlg.showModal();
+  }
+
+  function tidy() {
+    if (shut) return;
+    shut = true;
+    document.documentElement.style.overflow = '';
+    window.scrollTo({ top: scrollY, behavior: 'instant' });
+    btns[idx].focus({ preventScroll: true });
+  }
+
+  function hide() {
+    if (dlg.open) dlg.close();
+    tidy();
+  }
+
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { open(i); });
+  });
+
+  prev.addEventListener('click', function () { step(-1); });
+  next.addEventListener('click', function () { step(1); });
+  close.addEventListener('click', hide);
+
+  dlg.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'Escape') { hide(); }
+  });
+
+  dlg.addEventListener('cancel', tidy);
+
+  stage.addEventListener('click', function (e) {
+    if (e.target === stage) hide();
+  });
+
   var tx = 0, ty = 0, tracking = false;
   stage.addEventListener('touchstart', function (e) {
     if (e.touches.length !== 1) { tracking = false; return; }
