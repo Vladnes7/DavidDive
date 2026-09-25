@@ -30,7 +30,7 @@
      узнаёт о них только после загрузки стилей, и текст дольше стоит без шрифта. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
 <link rel="preload" as="image" href="img/hero.jpg" fetchpriority="high">
-<link rel="stylesheet" href="styles.css?v=a73a59f4">
+<link rel="stylesheet" href="styles.css?v=1e15b6ea">
 </head>
 <body>
 
@@ -335,21 +335,35 @@
         </div>
         <a class="btn btn--light" href="#contact" data-svc="Поиск и подъём предметов — от 15 000 ₽">Заказать поиск</a>
       </div>
+      <!-- Ролики открываются в вертикальном плеере (#vidLb) размером с телефон,
+           как Reels, а не растягиваются на весь экран -->
       <div class="tour lost__row">
         <figure class="tour__i">
-          <video preload="none" playsinline controls poster="img/poster-lost-1-week.jpg" aria-label="Телефон, который неделю пролежал в море"><source src="video/lost-1-week.mp4" type="video/mp4"></video>
+          <button class="lost__i" type="button" data-video="video/lost-1-week.mp4" data-poster="img/poster-lost-1-week.jpg" aria-label="Смотреть: телефон неделю пролежал в море">
+            <img src="img/poster-lost-1-week.jpg" width="720" height="1280" loading="lazy" decoding="async" alt="">
+            <span class="lost__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l10.5-6.5z"/></svg></span>
+          </button>
           <figcaption>Телефон неделю пролежал в&nbsp;море</figcaption>
         </figure>
         <figure class="tour__i">
-          <video preload="none" playsinline controls poster="img/poster-lost-2-uae.jpg" aria-label="Нашли телефон туристки из ОАЭ"><source src="video/lost-2-uae.mp4" type="video/mp4"></video>
+          <button class="lost__i" type="button" data-video="video/lost-2-uae.mp4" data-poster="img/poster-lost-2-uae.jpg" aria-label="Смотреть: хозяйка нашлась — туристка из ОАЭ">
+            <img src="img/poster-lost-2-uae.jpg" width="720" height="1280" loading="lazy" decoding="async" alt="">
+            <span class="lost__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l10.5-6.5z"/></svg></span>
+          </button>
           <figcaption>Хозяйка нашлась — туристка из&nbsp;ОАЭ</figcaption>
         </figure>
         <figure class="tour__i">
-          <video preload="none" playsinline controls poster="img/poster-lost-3-pier.jpg" aria-label="Утонувший телефон подняли с 5,5 метров и вернули на пирсе"><source src="video/lost-3-pier.mp4" type="video/mp4"></video>
+          <button class="lost__i" type="button" data-video="video/lost-3-pier.mp4" data-poster="img/poster-lost-3-pier.jpg" aria-label="Смотреть: подняли с 5,5 метров, вернули на пирсе">
+            <img src="img/poster-lost-3-pier.jpg" width="720" height="1280" loading="lazy" decoding="async" alt="">
+            <span class="lost__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l10.5-6.5z"/></svg></span>
+          </button>
           <figcaption>Подняли с 5,5&nbsp;м, вернули на&nbsp;пирсе</figcaption>
         </figure>
         <figure class="tour__i">
-          <video preload="none" playsinline controls poster="img/poster-lost-4-wallet.jpg" aria-label="Телефон с картами и деньгами вернули владельцу"><source src="video/lost-4-wallet.mp4" type="video/mp4"></video>
+          <button class="lost__i" type="button" data-video="video/lost-4-wallet.mp4" data-poster="img/poster-lost-4-wallet.jpg" aria-label="Смотреть: телефон с картами и деньгами вернули владельцу">
+            <img src="img/poster-lost-4-wallet.jpg" width="720" height="1280" loading="lazy" decoding="async" alt="">
+            <span class="lost__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l10.5-6.5z"/></svg></span>
+          </button>
           <figcaption>Телефон с картами и&nbsp;деньгами — вернули</figcaption>
         </figure>
       </div>
@@ -908,6 +922,25 @@
   </button>
 </dialog>
 
+<dialog class="lb lb--vid" id="vidLb" aria-label="Просмотр видео">
+  <div class="lb__stage" id="vidStage">
+    <video class="vid" id="vidEl" playsinline controls controlslist="nofullscreen nodownload" disablepictureinpicture preload="metadata"></video>
+  </div>
+  <p class="lb__n" id="vidN" aria-live="polite"></p>
+  <button class="lb__x" id="vidX" type="button" aria-label="Закрыть видео">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button class="lb__a lb__a--p" id="vidP" type="button" aria-label="Предыдущее видео">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <button class="lb__a lb__a--n" id="vidNx" type="button" aria-label="Следующее видео">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+</dialog>
+
 <dialog class="lb lb--rev" id="revLb" aria-label="Просмотр отзыва">
   <div class="lb__stage">
     <article class="revCard">
@@ -961,6 +994,6 @@
 }
 </script>
 
-<script src="script.js?v=40e6abd6" defer></script>
+<script src="script.js?v=8a58c99d" defer></script>
 </body>
 </html>

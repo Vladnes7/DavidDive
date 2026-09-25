@@ -782,6 +782,37 @@ a{color:inherit}
 /* на телефоне третий ролик выглядывает — видно, что ленту можно листать */
 .lost__row{grid-auto-columns:minmax(150px,43%)}
 .lost__row figcaption{font-size:.8rem}
+.lost__i{
+  position:relative;display:block;width:100%;padding:0;cursor:pointer;overflow:hidden;
+  aspect-ratio:9/16;background:var(--ocean-3);
+  border-radius:var(--r);border:1px solid var(--line-dark);
+}
+.lost__i img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease)}
+.lost__play{
+  position:absolute;left:50%;top:50%;translate:-50% -50%;
+  width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.9);color:var(--ocean);box-shadow:0 8px 24px rgba(0,0,0,.35);
+  transition:transform .3s var(--ease);
+}
+.lost__play svg{width:24px;height:24px;margin-left:3px}
+.lost__i:active .lost__play{transform:scale(.94)}
+@media (hover:hover){
+  .lost__i:hover img{transform:scale(1.04)}
+  .lost__i:hover .lost__play{transform:scale(1.08)}
+}
+/* плеер: вертикальный, размером с экран телефона — как в Instagram, не на весь экран */
+.lb--vid .lb__stage{padding:3.6rem 1rem 3.4rem}
+.vid{
+  /* высота — меньшая из: 84% экрана, 860px, либо та, при которой ролик 9:16
+     влезает по ширине; иначе на узком экране появляются чёрные полосы */
+  display:block;width:auto;max-width:100%;
+  height:min(84vh,860px,calc((100vw - 2rem) * 16 / 9));
+  aspect-ratio:9/16;object-fit:contain;background:#000;
+  border-radius:var(--r);box-shadow:0 24px 60px rgba(0,0,0,.5);
+}
+@media (prefers-reduced-motion:reduce){
+  .lost__i img,.lost__play{transition:none}
+}
 @media (min-width:640px){
   .lost__head{grid-template-columns:1fr auto}
 }

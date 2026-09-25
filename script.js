@@ -471,3 +471,54 @@
     a.addEventListener('click', function () { svc.value = a.getAttribute('data-svc'); });
   });
 })();
+
+/* «Потеряшки»: ролик открывается в вертикальном плеере размером с телефон
+   (как Reels) — кнопку «во весь экран» убрали, чтобы видео не растягивалось.
+   Листание — стрелками, клавишами и свайпом, как в фотогалерее. */
+(function () {
+  'use strict';
+  var dlg = document.getElementById('vidLb');
+  var items = Array.prototype.slice.call(document.querySelectorAll('.lost__i'));
+  if (!dlg || !items.length || typeof dlg.showModal !== 'function') return;
+  var vid = document.getElementById('vidEl');
+  var num = document.getElementById('vidN');
+  var stage = document.getElementById('vidStage');
+  var cur = 0, opener = null;
+
+  function show(i) {
+    cur = (i + items.length) % items.length;
+    var b = items[cur];
+    vid.poster = b.getAttribute('data-poster');
+    vid.src = b.getAttribute('data-video');
+    vid.setAttribute('aria-label', b.getAttribute('aria-label').replace(/^Смотреть: /, ''));
+    num.textContent = (cur + 1) + ' / ' + items.length;
+    var p = vid.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+  function hide() { if (dlg.open) dlg.close(); }
+
+  items.forEach(function (b, i) {
+    b.addEventListener('click', function () { opener = b; dlg.showModal(); show(i); });
+  });
+  document.getElementById('vidX').addEventListener('click', hide);
+  document.getElementById('vidP').addEventListener('click', function () { show(cur - 1); });
+  document.getElementById('vidNx').addEventListener('click', function () { show(cur + 1); });
+  dlg.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') show(cur - 1);
+    else if (e.key === 'ArrowRight') show(cur + 1);
+  });
+  stage.addEventListener('click', function (e) { if (e.target === stage) hide(); });
+  dlg.addEventListener('close', function () {
+    vid.pause(); vid.removeAttribute('src'); vid.load();
+    if (opener) opener.focus();
+  });
+
+  var tx = 0, ty = 0;
+  stage.addEventListener('touchstart', function (e) {
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+  }, { passive: true });
+  stage.addEventListener('touchend', function (e) {
+    var t = e.changedTouches[0], dx = t.clientX - tx, dy = t.clientY - ty;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.6) show(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+})();
