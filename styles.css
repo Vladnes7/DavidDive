@@ -773,6 +773,22 @@ a{color:inherit}
   font:600 .74rem/1.35 var(--body);color:var(--sky);opacity:.9;
 }
 
+/* «Потеряшки» — находки под карточкой «Поиск и подъём» */
+.lost{margin-top:clamp(2.2rem,5vw,3.2rem);display:grid;gap:1.3rem}
+.lost__head{display:grid;gap:1.1rem;align-items:end}
+.lost__head .h3{color:#fff;margin-top:.5rem}
+.lost__head p:not(.eyebrow){margin:.5rem 0 0;max-width:56ch;color:var(--sky)}
+.lost__head .btn{justify-self:start}
+/* на телефоне третий ролик выглядывает — видно, что ленту можно листать */
+.lost__row{grid-auto-columns:minmax(150px,43%)}
+.lost__row figcaption{font-size:.8rem}
+@media (min-width:640px){
+  .lost__head{grid-template-columns:1fr auto}
+}
+@media (min-width:980px){
+  .lost__row{grid-auto-columns:minmax(0,1fr)}
+}
+
 /* видео в галерее — 1280×720, поэтому 16/9, иначе обрезались бока */
 .gal__v video{
   width:100%;aspect-ratio:16/9;object-fit:cover;

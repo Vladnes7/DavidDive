@@ -30,7 +30,7 @@
      узнаёт о них только после загрузки стилей, и текст дольше стоит без шрифта. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
 <link rel="preload" as="image" href="img/hero.jpg" fetchpriority="high">
-<link rel="stylesheet" href="styles.css?v=683774b8">
+<link rel="stylesheet" href="styles.css?v=a73a59f4">
 </head>
 <body>
 
@@ -321,7 +321,38 @@
         <p class="card__price card__price--sm">от 15 000&nbsp;₽</p>
         <p>Выезд на поиск потерянных в воде предметов и оборудования — телефоны, снаряжение и другое. Большой опыт и ориентир на результат.</p>
         <p class="card__note">Цена — по локации, включает 1 погружение. При успехе — доплата 5 000 ₽ либо 10% от стоимости найденного</p>
+        <p><a class="lnk" href="#lost">Смотреть, что уже нашли&nbsp;↓</a></p>
       </article>
+    </div>
+
+    <!-- Потеряшки: реальные находки Давида (ролики из его Instagram) -->
+    <div class="lost rise" id="lost">
+      <div class="lost__head">
+        <div>
+          <p class="eyebrow">Потеряшки</p>
+          <h3 class="h3">Что уже нашли и вернули владельцам</h3>
+          <p>Телефоны, кошельки, снаряжение — даже после недели в море и далеко от берега шансы есть.</p>
+        </div>
+        <a class="btn btn--light" href="#contact" data-svc="Поиск и подъём предметов — от 15 000 ₽">Заказать поиск</a>
+      </div>
+      <div class="tour lost__row">
+        <figure class="tour__i">
+          <video preload="none" playsinline controls poster="img/poster-lost-1-week.jpg" aria-label="Телефон, который неделю пролежал в море"><source src="video/lost-1-week.mp4" type="video/mp4"></video>
+          <figcaption>Телефон неделю пролежал в&nbsp;море</figcaption>
+        </figure>
+        <figure class="tour__i">
+          <video preload="none" playsinline controls poster="img/poster-lost-2-uae.jpg" aria-label="Нашли телефон туристки из ОАЭ"><source src="video/lost-2-uae.mp4" type="video/mp4"></video>
+          <figcaption>Хозяйка нашлась — туристка из&nbsp;ОАЭ</figcaption>
+        </figure>
+        <figure class="tour__i">
+          <video preload="none" playsinline controls poster="img/poster-lost-3-pier.jpg" aria-label="Утонувший телефон подняли с 5,5 метров и вернули на пирсе"><source src="video/lost-3-pier.mp4" type="video/mp4"></video>
+          <figcaption>Подняли с 5,5&nbsp;м, вернули на&nbsp;пирсе</figcaption>
+        </figure>
+        <figure class="tour__i">
+          <video preload="none" playsinline controls poster="img/poster-lost-4-wallet.jpg" aria-label="Телефон с картами и деньгами вернули владельцу"><source src="video/lost-4-wallet.mp4" type="video/mp4"></video>
+          <figcaption>Телефон с картами и&nbsp;деньгами — вернули</figcaption>
+        </figure>
+      </div>
     </div>
 
     <div class="bridge rise">
@@ -930,6 +961,6 @@
 }
 </script>
 
-<script src="script.js?v=79e1bae7" defer></script>
+<script src="script.js?v=40e6abd6" defer></script>
 </body>
 </html>

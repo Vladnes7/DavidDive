@@ -460,3 +460,14 @@
 
   dlg.addEventListener('close', tidy);
 })();
+
+/* Кнопка «Заказать поиск» в «Потеряшках» сразу выбирает услугу в форме,
+   чтобы человек не искал её в длинном списке. */
+(function () {
+  'use strict';
+  var svc = document.getElementById('f-svc');
+  if (!svc) return;
+  Array.prototype.forEach.call(document.querySelectorAll('[data-svc]'), function (a) {
+    a.addEventListener('click', function () { svc.value = a.getAttribute('data-svc'); });
+  });
+})();
