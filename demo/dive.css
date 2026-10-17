@@ -1,0 +1,160 @@
+/* ------------------------------------------------ «погружение» (демо)
+   Вся страница до волны лежит на одном непрерывном фоне: небо, линия
+   воды, глубина, дно. Фон закреплён на экране и едет медленнее текста.
+   Без JS (.js-dive не выставлен) фоном служит обычный градиент. */
+/* Шрифт заголовка лежит рядом с сайтом: с Google Fonts он у части
+   посетителей не доезжал, и заголовок вставал запасным Arial. */
+@font-face{font-family:'Oswald';font-weight:600 700;font-display:swap;src:url(fonts/oswald-cyrillic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Oswald';font-weight:600 700;font-display:swap;src:url(fonts/oswald-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+2013-2014,U+2018-201D,U+2605}
+
+html{background:#09141f}
+body.dive{
+  background:linear-gradient(#68b1e4 0,#0b4e86 900px,#093a66 30%,#051c37 70%,#09141f 100%);
+}
+.js-dive body.dive{background:none}
+
+.dive-bg{
+  position:fixed;top:0;left:0;right:0;height:100vh;height:100lvh;
+  overflow:hidden;pointer-events:none;display:none;
+}
+.js-dive .dive-bg{display:block}
+.dive-bg{z-index:-1;background:linear-gradient(#0b4e86,#051c37)}
+.dive-bg__track{position:absolute;top:0;left:50%;width:100%;will-change:transform}
+.dive-bg__track img{display:block;width:100%;max-width:none}
+/* плитки внахлёст на пиксель: при дробном масштабе между ними иначе видна щель */
+.dive-bg__track img + img{margin-top:-1px}
+
+/* всё содержимое после первого экрана плывёт над водой */
+.dive main .band,.dive .wave,.dive .foot{position:relative;z-index:2}
+.dive main .band--ocean{
+  background:none;
+  /* светлые блоки главной версии здесь стоят на воде: их «чернила» светлеют */
+  --ink:#fff;--ink-soft:#C3DEF3;--line-light:var(--line-dark);
+}
+.dive main .band--ocean + .band--ocean{border-top:0}
+
+/* Панели: плотная тёмная подложка вместо размытия. Размытие под собой
+   движущегося фона пересчитывается на каждом кадре и тормозит телефоны,
+   а на рифе полупрозрачная карточка плохо читается. */
+.dive main .band--ocean .card,
+.dive main .band--ocean .disc,
+.dive main .stat,
+.dive main .faq details,
+.dive main .safe,
+.dive main .program__list li{
+  background:rgba(7,26,52,.62);border-color:var(--line-dark);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+.dive main .program__list li,
+.dive main .program__team,
+.dive main .about__story .sign{color:#fff}
+.dive main .program__team{opacity:.9}
+.dive main .faq details[open]{box-shadow:none}
+.dive main .faq summary::after{background-color:rgba(140,193,233,.2);filter:brightness(2.4)}
+.dive main .band--ocean .btn--outline{color:#fff;border-color:rgba(255,255,255,.6)}
+
+/* ------------------------------------------------------- первый экран */
+/* place-items сброшен: Chrome применяет его и к блочным потомкам, и сцена
+   сжималась по содержимому — слой воды обрезался прямоугольником. */
+.dive .hero{
+  display:block;place-items:normal;overflow:visible;padding:0;min-height:0;
+  height:calc(100vh + var(--pin,0px));height:calc(100svh + var(--pin,0px));
+}
+.dive .hero__stage{
+  position:sticky;top:0;width:100%;height:100vh;height:100svh;min-height:520px;
+  overflow:hidden;
+}
+.dive .hero__in{max-width:none;padding-inline:var(--gut)}
+/* Небо: высота блока равна линии горизонта (её задаёт dive.js), текст прижат
+   к низу. Блок обрезается по горизонту через clip-path: нижняя строка
+   заголовка с первого кадра частично скрыта водой, а при скролле линия
+   обреза поднимается вместе с водой и прячет надпись целиком. */
+.dive .hero__sky{
+  height:var(--horizon,62vh);
+  padding-top:calc(var(--hdr) + 1.2rem);
+  display:flex;flex-direction:column;justify-content:flex-end;align-items:center;
+  -webkit-clip-path:inset(-60px -60px 0 -60px);clip-path:inset(-60px -60px 0 -60px);
+}
+.dive .hero .h1{
+  font-family:'Oswald','Arial Narrow',var(--body);font-weight:700;
+  font-size:min(9.2vw,calc((var(--horizon,62vh) - var(--hdr)) * .27));
+  line-height:1;letter-spacing:.01em;text-transform:uppercase;
+  color:#B4DDFF;text-shadow:0 2px 22px rgba(6,52,112,.5);
+  margin:0 0 -.13em;text-wrap:nowrap;white-space:nowrap;
+}
+.dive .hero .h1 span:first-child{display:block}
+.dive .hero .h1 em{font-style:normal;font-weight:inherit;color:#0A4FAE;text-shadow:0 1px 20px rgba(255,255,255,.28)}
+.dive .hero__sub{
+  font:700 clamp(.74rem,1.05vw,.95rem)/1.5 var(--body);letter-spacing:.09em;text-transform:uppercase;
+  color:#fff;text-shadow:0 1px 14px rgba(8,62,128,.6);
+  max-width:none;margin:0 0 1.1rem;
+}
+.dive .hero__acts{margin-top:2.8rem}
+.dive .hero .btn--ghost{background:rgba(18,40,75,.42);border-color:rgba(255,255,255,.7)}
+@media (max-width:700px){
+  /* на телефоне три строки: иначе «дайвинг в Сириусе» не влезает крупно */
+  .dive .hero .h1{font-size:min(10.6vw,calc((var(--horizon,62vh) - var(--hdr)) * .2))}
+  .dive .hero .h1 span{display:block}
+  .dive .hero__sub{max-width:30ch;margin-bottom:.8rem}
+}
+
+/* ------------------------------------------------------ шкала глубины */
+.gauge{
+  position:fixed;z-index:150;top:50%;left:max(14px,calc((100vw - var(--maxw))/2 - 78px));
+  height:min(46vh,400px);margin-top:calc(min(46vh,400px)/-2);
+  color:#fff;font:600 .72rem/1 var(--body);letter-spacing:.06em;
+  pointer-events:none;opacity:0;transition:opacity .3s cubic-bezier(.23,1,.32,1);
+  display:none;
+}
+.js-dive .gauge{display:block}
+.gauge.is-on{opacity:1}
+.gauge__line{position:absolute;top:0;bottom:0;left:0;width:1px;background:rgba(255,255,255,.38)}
+.gauge__tick{position:absolute;left:0;width:9px;height:1px;background:rgba(255,255,255,.6)}
+.gauge__tick span{position:absolute;left:16px;top:-.36em;opacity:.62;font-variant-numeric:tabular-nums}
+.gauge__mark,.gauge__read{will-change:transform}
+.gauge__mark{position:absolute;top:0;left:0}
+.gauge__mark::before{
+  content:"";position:absolute;left:-4px;top:-4px;width:9px;height:9px;border-radius:50%;
+  background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.18);
+}
+.gauge__read{
+  position:absolute;left:18px;top:-.95rem;white-space:nowrap;
+  padding:.5rem .7rem;border-radius:var(--pill);
+  background:rgba(9,20,31,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.22);
+  font-size:.92rem;letter-spacing:.01em;font-variant-numeric:tabular-nums;
+}
+.gauge__read small{font-size:.72rem;opacity:.7;margin-left:.2em}
+/* рядом с отметкой подписи делений мешали бы читать цифру */
+.gauge__tick span{transition:opacity .2s ease}
+.gauge__tick.is-near span{opacity:0}
+
+/* Экран уже 1380px: слева шкале негде встать без наезда на текст.
+   Остаётся тонкая линия в правом поле, цифра стоит над ней вертикально
+   и не двигается: в поле шириной 20px плашка закрывала бы текст. */
+@media (max-width:1380px){
+  .gauge{left:auto;right:9px;height:min(30vh,240px);margin-top:calc(min(30vh,240px)/-2 + 1.5rem)}
+  .gauge__line{width:2px;border-radius:2px;background:rgba(255,255,255,.3)}
+  .gauge__tick{display:none}
+  .gauge__mark::before{left:-3px;top:-4px;width:8px;height:8px;box-shadow:none}
+  .gauge__read{
+    transform:none !important;
+    left:50%;top:auto;bottom:calc(100% + .6rem);margin-left:-.62rem;width:1.3rem;
+    padding:.55rem 0;display:flex;align-items:center;justify-content:center;
+    writing-mode:vertical-rl;font-size:.7rem;letter-spacing:.04em;
+    background:rgba(9,20,31,.6);border-color:rgba(255,255,255,.18);
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+  }
+  .gauge__read small{margin:.25em 0 0}
+}
+
+/* ---------------------------------------- стык дна и волны в конце */
+.dive .wave,.dive .wave__stage{background:#09141f}
+.dive .wave.is-live .wave__stage::after{height:34%;background:linear-gradient(#09141f,transparent)}
+
+@media (prefers-reduced-motion:reduce){
+  /* без закрепления первого экрана и без воды поверх текста */
+  .dive .hero{height:auto}
+  .dive .hero__stage{position:relative}
+  .gauge{transition:none}
+}

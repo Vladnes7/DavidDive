@@ -1,0 +1,53 @@
+/* ------------------------------------------------- сцена «волна» (демо)
+   Без JS и при «уменьшить движение» это обычный экран с финальным кадром
+   и призывом. Класс .is-live вешает wave.js: секция вытягивается, сцена
+   липнет к экрану, а ролик проматывается скроллом. */
+.wave{background:var(--cloud)}
+.wave__stage{
+  position:relative;height:100vh;height:100svh;min-height:420px;
+  overflow:hidden;overflow:clip;
+  background:var(--cloud);color:#fff;
+}
+.wave__still,.wave__video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:50% 50%;
+}
+.wave__video{display:none}
+/* затемнение под текст: бирюза с пеной слишком светлая для белых букв.
+   Умножением, а не серой вуалью, чтобы вода осталась водой, а не выцвела. */
+.wave__shade{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 75% 70% at 50% 52%,#0A4C8C,#3F8FC2);
+  mix-blend-mode:multiply;
+}
+.wave__copy{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:calc(var(--hdr) + 2rem) var(--gut) 3rem;
+}
+.wave__copy .eyebrow{color:#fff}
+.wave__copy .h2{
+  font-size:clamp(2.3rem,6.4vw,5rem);line-height:1.04;
+  max-width:14ch;margin:.5em 0 .7em;
+  text-wrap:balance;text-shadow:0 2px 28px rgba(12,28,54,.45);
+}
+.wave__copy .h2 em{font-style:italic;font-weight:400}
+.wave__note{margin:1.1rem 0 0;font-size:.95rem;opacity:.9}
+
+.wave.is-live{height:260vh;height:260svh}
+.wave.is-live .wave__stage{position:sticky;top:0}
+.wave.is-live .wave__still{visibility:hidden}
+.wave.is-live .wave__video{display:block}
+.wave.is-live .wave__shade{opacity:var(--wave-tint,0)}
+.wave.is-live .wave__copy{opacity:var(--wave-copy,0);pointer-events:none}
+.wave.is-live .wave__copy.is-on{pointer-events:auto}
+/* верх сцены сначала растворён в кремовом блоке выше, шов уходит с первыми кадрами */
+.wave.is-live .wave__stage::after{
+  content:"";position:absolute;inset:0 0 auto;height:14%;pointer-events:none;
+  background:linear-gradient(var(--cloud),transparent);opacity:var(--wave-seam,1);
+}
+
+@media (max-width:700px){
+  .wave.is-live{height:220vh;height:220svh}
+  .wave__stage{min-height:360px}
+}
