@@ -172,7 +172,7 @@
       'Интересует: ' + $('#f-svc').value
     ];
     var qty  = $('#f-qty').value.trim();
-    var gear = $$('#f-gear option:checked').map(function (o) { return o.textContent; });
+    var gear = $$('#f-gear input:checked').map(function (o) { return o.value; });
     var date = $('#f-date').value.trim();
     var exp  = $('#f-exp').value.trim();
     var msg  = $('#f-msg').value.trim();
@@ -470,6 +470,29 @@
   Array.prototype.forEach.call(document.querySelectorAll('[data-svc]'), function (a) {
     a.addEventListener('click', function () { svc.value = a.getAttribute('data-svc'); });
   });
+})();
+
+/* Аренда снаряжения в форме: компактное поле со списком галочек.
+   В поле пишется выбор, список закрывается кликом мимо и по Esc. */
+(function () {
+  'use strict';
+  var pick = document.getElementById('f-gear');
+  if (!pick) return;
+  var val = pick.querySelector('.pick__v');
+  var boxes = Array.prototype.slice.call(pick.querySelectorAll('input'));
+  function show() {
+    var on = boxes.filter(function (b) { return b.checked; });
+    val.textContent = !on.length ? 'Не нужна'
+      : on.length === 1 ? on[0].nextElementSibling.textContent
+      : 'Выбрано: ' + on.length;
+    pick.classList.toggle('is-set', on.length > 0);
+  }
+  boxes.forEach(function (b) { b.addEventListener('change', show); });
+  document.addEventListener('click', function (e) { if (pick.open && !pick.contains(e.target)) pick.open = false; });
+  pick.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && pick.open) { pick.open = false; pick.querySelector('summary').focus(); }
+  });
+  show();
 })();
 
 /* «Потеряшки»: ролик открывается в вертикальном плеере размером с телефон

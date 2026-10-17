@@ -10,7 +10,8 @@
 
   var track = bg.querySelector('.dive-bg__track');
   var tiles = track.children;
-  var sky = hero.querySelector('.hero__sky');
+  var sky = hero.querySelector('.hero__sky:not(.hero__sea)');
+  var sea = hero.querySelector('.hero__sea');
   var gauge = document.querySelector('.gauge');
   var mark = gauge.querySelector('.gauge__mark');
   var read = gauge.querySelector('.gauge__read');
@@ -75,6 +76,8 @@
     if (s < pin + window.innerHeight) {
       var hidden = Math.max(0, y - Math.max(0, s - pin));
       sky.style.clipPath = sky.style.webkitClipPath = 'inset(-60px -60px ' + hidden.toFixed(1) + 'px -60px)';
+      // преломлённая копия (fx.js) видна ровно там, где оригинал ушёл под воду
+      if (sea) sea.style.clipPath = sea.style.webkitClipPath = 'inset(calc(100% - ' + hidden.toFixed(1) + 'px) -60px -200px -60px)';
     }
 
     var p = clamp((s - pin) / (dive - pin), 0, 1);

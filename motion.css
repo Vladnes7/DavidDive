@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Движение и переходы. Цвета и тексты — из styles.css, здесь только моушн
+   и раскладка там, где она нужна эффекту.
+   Всё под классом .mo на <html>: его ставит ранний скрипт в <head>, только
+   если включён JS и не выбрано «уменьшить движение». Без него страница
+   выглядит как раньше.
+   ========================================================================== */
+:root{
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-io:cubic-bezier(.77,0,.175,1);
+}
+
+/* ------------------------------------------------------------- заставка */
+.intro{display:none}
+.mo:not(.mo-seen) .intro{
+  display:grid;place-items:center;position:fixed;inset:0;z-index:400;
+  background:var(--ocean);color:var(--cloud);
+  /* страховка: если JS споткнётся, заставка уйдёт сама */
+  animation:introAuto .9s var(--ease-io) 3.2s forwards;
+}
+.intro.is-out{animation:none;transform:translateY(calc(-100% - 90px));transition:transform 1s var(--ease-io)}
+@keyframes introAuto{to{transform:translateY(calc(-100% - 90px))}}
+.intro__in{display:grid;justify-items:center;gap:1rem}
+.intro__logo{width:84px;height:84px;color:var(--cloud);opacity:0;scale:.86;animation:introLogo 1s var(--ease-out) .1s forwards}
+.intro__t{
+  font:500 clamp(1.4rem,4vw,2rem)/1 var(--display);letter-spacing:.3em;text-transform:uppercase;
+  opacity:0;animation:introT 1.1s var(--ease-out) .25s forwards;
+}
+.intro__line{width:140px;height:2px;border-radius:2px;background:rgba(140,193,233,.25);overflow:hidden}
+.intro__line i{display:block;height:100%;background:var(--sky);transform-origin:left;transform:scaleX(0);animation:introLine 1.3s var(--ease-io) .2s forwards}
+/* нижний край шторки — волна, она уходит вверх последней */
+.intro__wave{position:absolute;left:0;top:calc(100% - 1px);width:100%;height:90px;fill:var(--ocean)}
+@keyframes introLogo{to{opacity:1;scale:1}}
+@keyframes introT{from{letter-spacing:.6em}to{opacity:1;letter-spacing:.3em}}
+@keyframes introLine{to{transform:scaleX(1)}}
+
+/* ---------------------------------------------------- слова в заголовках */
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .06em .14em;margin:0 -.06em -.14em}
+.w__i{display:inline-block;transform:translateY(108%);transition:transform 1s var(--ease-out);transition-delay:calc(var(--i,0) * 55ms)}
+.is-words .w__i{transform:none}
+
+/* ---------------------------------------------------------------- HERO
+   Первый экран стоит на месте, следующие блоки наезжают на него, как лист
+   на лист. Сам экран при этом чуть уменьшается, скругляется и темнеет. */
+@media (min-height:560px){
+  .mo:not(.js-dive) .hero{position:sticky;top:0;z-index:0;will-change:transform}
+}
+.mo:not(.js-dive) main > section:not(.hero){z-index:1}
+/* за уменьшающимся первым экраном — глубина, а не кремовый фон страницы */
+.mo:not(.js-dive) main{background:var(--ocean-3)}
+.mo:not(.js-dive) .hero::after{
+  content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:var(--ocean-3);opacity:var(--dim,0);
+}
+.mo .hero__img{scale:1.16;transition:scale 2.4s var(--ease-out);will-change:transform}
+.mo.is-ready .hero__img{scale:1.04}
+.mo:not(.js-dive) .hero__in{will-change:transform,opacity}
+.mo .hero__sub,.mo .hero__acts{opacity:0;translate:0 18px;transition:opacity .9s var(--ease-out),translate 1s var(--ease-out)}
+.mo .hero__sub{transition-delay:.35s}
+.mo .hero__acts{transition-delay:.5s}
+.mo.is-ready .hero__sub,.mo.is-ready .hero__acts{opacity:1;translate:0 0}
+
+/* ---------------------------------------------- волна на стыке полос */
+.wv{position:absolute;left:0;right:0;bottom:calc(100% - 1px);height:clamp(22px,3.6vw,52px);overflow:hidden;pointer-events:none}
+.wv svg{position:absolute;left:0;bottom:0;width:200%;height:100%;will-change:transform}
+.wv path{fill:var(--wv)}
+.wv svg + svg{height:140%}
+
+/* ---------------------------------------------- шапка прячется при скролле вниз */
+.mo .hdr{transition:padding .3s var(--ease),transform .5s var(--ease-out)}
+.mo .hdr.is-hidden{transform:translateY(-140%)}
+
+/* --------------------------------------- черта у надзаголовка прорастает */
+.mo .rise .eyebrow::before{transform:scaleX(0);transform-origin:left;transition:transform .9s var(--ease-out) .15s}
+.mo .rise.is-in .eyebrow::before{transform:none}
+
+/* ------------------------------- группы карточек: выходят по одной */
+.mo .stats.rise,.mo .cards.rise,.mo .mkgrid.rise,.mo .geo.rise,.mo .faq.rise{opacity:1;transform:none}
+.mo .stagger > *{
+  opacity:0;translate:0 34px;
+  transition:opacity .8s var(--ease-out),translate 1s var(--ease-out),
+             transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease),background .3s var(--ease);
+  transition-delay:calc(var(--i,0) * 70ms);
+}
+.mo .stagger.is-in > *{opacity:1;translate:0 0}
+/* после выхода задержка мешала бы ховеру */
+.mo .stagger.is-done > *{transition-delay:0s}
+
+/* ---------------------------------------- инструктор: фото проявляются */
+.mo .about__media.rise{opacity:1;transform:none}
+.mo .about__media img{
+  clip-path:inset(100% 0 0 0 round var(--r-lg));scale:1.12;
+  transition:clip-path 1.3s var(--ease-io),scale 1.6s var(--ease-out),transform .45s var(--ease),box-shadow .45s var(--ease);
+}
+.mo .about__media img + img{transition-delay:.18s,.18s,0s,0s}
+.mo .about__media.is-in img{clip-path:inset(-80px round var(--r-lg));scale:1}
+
+/* ---------------------------- «Как проходит»: нить прорисовывается скроллом */
+.mo .how__steps{
+  background:linear-gradient(rgba(67,139,196,.18),rgba(67,139,196,.18)) no-repeat calc(1.2rem - 1px) 1.2rem / 2px calc(100% - 2.4rem);
+}
+.mo .how__steps::before{transform:translateX(-1px) scaleY(var(--p,0));transform-origin:top;background:var(--berry)}
+.mo .how__steps li::before{
+  background:var(--cloud);color:var(--berry);box-shadow:inset 0 0 0 2px var(--berry);
+  transition:background .4s var(--ease-out),color .4s var(--ease-out),box-shadow .5s var(--ease-out),scale .5s var(--ease-out);
+}
+.mo .how__steps li.is-done::before{background:var(--berry);color:#fff;box-shadow:0 0 0 6px rgba(0,85,160,.14)}
+.mo .how__steps li.is-now::before{scale:1.12}
+
+/* ------------------------------------- подсветка под курсором у карточек */
+.spot{isolation:isolate}
+.stat.spot,.mkc.spot,.geo__i.spot{position:relative}
+.spot::after{
+  content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;
+  opacity:0;transition:opacity .4s ease;
+  background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),rgba(140,193,233,.2),transparent 62%);
+}
+.band--cream .spot::after{background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),rgba(67,139,196,.13),transparent 62%)}
+@media (hover:hover) and (pointer:fine){
+  .spot:hover::after{opacity:1}
+}
+
+/* ------------------------------------- кнопки: блик и «магнит» */
+.mo .btn{
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease),translate .5s var(--ease-out),
+             background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease);
+}
+.mo .btn--primary{overflow:hidden;isolation:isolate}
+.mo .btn--primary::after{
+  content:"";position:absolute;inset:-2px;z-index:-1;pointer-events:none;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.32) 50%,transparent 70%);
+  transform:translateX(-120%);
+}
+@media (hover:hover) and (pointer:fine){
+  .mo .btn--primary:hover::after{transform:translateX(120%);transition:transform .9s var(--ease-out)}
+}
+.mo .btn.is-mag{transition:transform .3s var(--ease),box-shadow .3s var(--ease),translate .12s linear,
+             background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease)}
+
+/* ------------------------------ футер открывается из-под страницы */
+.mo body.foot-reveal main{position:relative;z-index:1}
+.mo body.foot-reveal .foot{position:sticky;bottom:0;z-index:0}
+
+/* ------------------------------ на всякий случай: системная настройка */
+@media (prefers-reduced-motion:reduce){
+  .intro{display:none !important}
+  .w__i{transform:none !important}
+}

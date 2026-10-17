@@ -31,11 +31,14 @@
      узнаёт о них только после загрузки стилей, и текст дольше стоит без шрифта. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
 <link rel="preload" as="image" href="bg/0.webp" fetchpriority="high">
-<link rel="stylesheet" href="../styles.css?v=1e15b6ea">
+<link rel="stylesheet" href="../styles.css?v=20261017">
 <link rel="preload" as="font" type="font/woff2" href="fonts/oswald-cyrillic.woff2" crossorigin>
-<link rel="stylesheet" href="wave.css?v=2">
-<link rel="stylesheet" href="dive.css?v=6">
-<script>document.documentElement.className+=" js-dive"</script>
+<link rel="stylesheet" href="../motion.css?v=3">
+<link rel="stylesheet" href="wave.css?v=3">
+<link rel="stylesheet" href="dive.css?v=7">
+<link rel="stylesheet" href="fx.css?v=1">
+<!-- Движение включается только с JS и без «уменьшить движение» -->
+<script>(function(d){d.className+=" js-dive";if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('mo')})(document.documentElement)</script>
 </head>
 <body class="dive">
 
@@ -53,11 +56,11 @@
 </div>
 <aside class="gauge" aria-hidden="true">
   <div class="gauge__line"></div>
-    <i class="gauge__tick" style="top:0%"><span>0</span></i>
-    <i class="gauge__tick" style="top:25%"><span>5</span></i>
-    <i class="gauge__tick" style="top:50%"><span>10</span></i>
-    <i class="gauge__tick" style="top:75%"><span>15</span></i>
-    <i class="gauge__tick" style="top:100%"><span>20</span></i>
+    <button class="gauge__tick" type="button" tabindex="-1" style="top:0%"><span>0</span></button>
+    <button class="gauge__tick" type="button" tabindex="-1" style="top:25%"><span>5</span></button>
+    <button class="gauge__tick" type="button" tabindex="-1" style="top:50%"><span>10</span></button>
+    <button class="gauge__tick" type="button" tabindex="-1" style="top:75%"><span>15</span></button>
+    <button class="gauge__tick" type="button" tabindex="-1" style="top:100%"><span>20</span></button>
   <div class="gauge__mark"></div>
   <div class="gauge__read"><b class="gauge__num">0,0</b><small>м</small></div>
 </aside>
@@ -820,26 +823,30 @@
         </div>
 
         <div class="field">
-          <label for="f-gear">Нужна аренда снаряжения <span>— необязательно</span></label>
-          <select id="f-gear" name="gear" multiple size="5">
-            <option>Стандартный комплект — 3 500 ₽/сутки</option>
-            <option>Гидрокостюм 5 мм — 1 000 ₽/сутки</option>
-            <option>Регулятор — 1 500 ₽/сутки</option>
-            <option>Жилет-компенсатор — 1 200 ₽/сутки</option>
-            <option>Дайв-компьютер — 1 200 ₽/сутки</option>
-            <option>Основной фонарь — 1 000 ₽/сутки</option>
-            <option>Ласты — 700 ₽/сутки</option>
-            <option>Боты — 700 ₽/сутки</option>
-            <option>Куртка-утеплитель — 700 ₽/сутки</option>
-            <option>Перчатки — 500 ₽/сутки</option>
-            <option>Маска — 500 ₽/сутки</option>
-            <option>Шлем — 500 ₽/сутки</option>
-            <option>Бэкап-фонарь — 500 ₽/сутки</option>
-            <option>Буй с катушкой — 500 ₽/сутки</option>
-            <option>Компас — 500 ₽/сутки</option>
-            <option>Сумка для снаряжения — 500 ₽/сутки</option>
-          </select>
-          <p class="form__hint" style="margin:.35rem 0 0">Можно выбрать несколько — зажмите Ctrl (Cmd на Mac) или проведите пальцем по списку на телефоне.</p>
+          <span class="field__l" id="l-gear">Нужна аренда снаряжения <span>— необязательно</span></span>
+          <!-- Компактно, как поле «Что интересует»: список раскрывается по клику,
+               галочками можно выбрать несколько позиций (цены — за сутки) -->
+          <details class="pick" id="f-gear">
+            <summary class="pick__s" aria-describedby="l-gear"><span class="pick__v">Не нужна</span></summary>
+            <div class="pick__list" role="group" aria-labelledby="l-gear">
+              <label class="pick__i"><input type="checkbox" name="gear" value="Стандартный комплект — 3 500 ₽/сутки"><span>Стандартный комплект</span><b>3 500&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Гидрокостюм 5 мм — 1 000 ₽/сутки"><span>Гидрокостюм 5 мм</span><b>1 000&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Регулятор — 1 500 ₽/сутки"><span>Регулятор</span><b>1 500&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Жилет-компенсатор — 1 200 ₽/сутки"><span>Жилет-компенсатор</span><b>1 200&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Дайв-компьютер — 1 200 ₽/сутки"><span>Дайв-компьютер</span><b>1 200&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Основной фонарь — 1 000 ₽/сутки"><span>Основной фонарь</span><b>1 000&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Ласты — 700 ₽/сутки"><span>Ласты</span><b>700&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Боты — 700 ₽/сутки"><span>Боты</span><b>700&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Куртка-утеплитель — 700 ₽/сутки"><span>Куртка-утеплитель</span><b>700&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Перчатки — 500 ₽/сутки"><span>Перчатки</span><b>500&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Маска — 500 ₽/сутки"><span>Маска</span><b>500&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Шлем — 500 ₽/сутки"><span>Шлем</span><b>500&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Бэкап-фонарь — 500 ₽/сутки"><span>Бэкап-фонарь</span><b>500&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Буй с катушкой — 500 ₽/сутки"><span>Буй с катушкой</span><b>500&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Компас — 500 ₽/сутки"><span>Компас</span><b>500&nbsp;₽</b></label>
+              <label class="pick__i"><input type="checkbox" name="gear" value="Сумка для снаряжения — 500 ₽/сутки"><span>Сумка для снаряжения</span><b>500&nbsp;₽</b></label>
+            </div>
+          </details>
         </div>
 
         <div class="field">
@@ -1036,8 +1043,11 @@
 }
 </script>
 
-<script src="../script.js?v=8a58c99d" defer></script>
-<script src="wave.js?v=2" defer></script>
-<script src="dive.js?v=6" defer></script>
+<script src="../script.js?v=20261017" defer></script>
+<!-- fx.js — до motion.js: копия заголовка снимается, пока слова ещё не разрезаны -->
+<script src="fx.js?v=1" defer></script>
+<script src="../motion.js?v=3" defer></script>
+<script src="wave.js?v=3" defer></script>
+<script src="dive.js?v=7" defer></script>
 </body>
 </html>

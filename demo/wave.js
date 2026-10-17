@@ -12,7 +12,7 @@
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reduced.matches) return;
 
-  var target = 0, frame = 0, live = false, loading = false;
+  var target = 0, smooth = 0, frame = 0, live = false, loading = false;
 
   function clamp(v) { return Math.max(0, Math.min(1, v)); }
 
@@ -31,8 +31,11 @@
   function seek() {
     frame = 0;
     if (!live || video.readyState < 2 || video.seeking || !isFinite(video.duration)) return;
-    var time = target * Math.max(0, video.duration - 1 / 30);
-    if (Math.abs(video.currentTime - time) < 1 / 60) { paint(); return; }
+    // ролик догоняет скролл с мягкой инерцией, а не дёргается за колесом
+    smooth += (target - smooth) * .22;
+    if (Math.abs(target - smooth) < .002) smooth = target;
+    var time = smooth * Math.max(0, video.duration - 1 / 30);
+    if (Math.abs(video.currentTime - time) < 1 / 60) { paint(); if (smooth !== target) request(); return; }
     try { video.currentTime = time; } catch (e) { /* повторим на seeked */ }
   }
 
