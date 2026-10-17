@@ -31,12 +31,12 @@
      узнаёт о них только после загрузки стилей, и текст дольше стоит без шрифта. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
 <link rel="preload" as="image" href="bg/0.webp" fetchpriority="high">
-<link rel="stylesheet" href="../styles.css?v=20261017">
+<link rel="stylesheet" href="../styles.css?v=20261017b">
 <link rel="preload" as="font" type="font/woff2" href="fonts/oswald-cyrillic.woff2" crossorigin>
-<link rel="stylesheet" href="../motion.css?v=3">
+<link rel="stylesheet" href="../motion.css?v=4">
 <link rel="stylesheet" href="wave.css?v=3">
 <link rel="stylesheet" href="dive.css?v=7">
-<link rel="stylesheet" href="fx.css?v=1">
+<link rel="stylesheet" href="fx.css?v=3">
 <!-- Движение включается только с JS и без «уменьшить движение» -->
 <script>(function(d){d.className+=" js-dive";if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('mo')})(document.documentElement)</script>
 </head>
@@ -98,16 +98,26 @@
 </header>
 
 <nav class="menu" id="menu" hidden aria-label="Мобильное меню">
-  <a href="#about">Инструктор</a>
-  <a href="#dives">Погружения</a>
-  <a href="#courses">Курсы</a>
-  <a href="#masterclass">Мастер-классы</a>
-  <a href="#gallery">Галерея</a>
-  <a href="#reviews">Отзывы</a>
-  <a href="#geo">Где ныряем</a>
-  <a href="#rental">Аренда</a>
-  <a href="#faq">FAQ</a>
-  <a href="#contact">Записаться</a>
+  <div class="menu__links">
+    <a href="#about">Инструктор</a>
+    <a href="#dives">Погружения</a>
+    <a href="#courses">Курсы</a>
+    <a href="#masterclass">Мастер-классы</a>
+    <a href="#gallery">Галерея</a>
+    <a href="#reviews">Отзывы</a>
+    <a href="#geo">Где ныряем</a>
+    <a href="#rental">Аренда</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <div class="menu__foot">
+    <a class="btn btn--primary btn--wide" href="#contact">Записаться</a>
+    <div class="menu__soc">
+      <a href="tel:+79262150886" aria-label="Позвонить"><svg aria-hidden="true"><use href="#i-phone"></use></svg></a>
+      <a href="https://wa.me/79262150886" target="_blank" rel="noopener" aria-label="WhatsApp"><svg aria-hidden="true"><use href="#i-wa"></use></svg></a>
+      <a href="https://t.me/DriverDM" target="_blank" rel="noopener" aria-label="Telegram — написать напрямую"><svg aria-hidden="true"><use href="#i-tg"></use></svg></a>
+      <a href="https://instagram.com/diving_david" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#i-ig"></use></svg></a>
+    </div>
+  </div>
 </nav>
 
 <main id="main">
@@ -1043,10 +1053,10 @@
 }
 </script>
 
-<script src="../script.js?v=20261017" defer></script>
+<script src="../script.js?v=20261017b" defer></script>
 <!-- fx.js — до motion.js: копия заголовка снимается, пока слова ещё не разрезаны -->
-<script src="fx.js?v=1" defer></script>
-<script src="../motion.js?v=3" defer></script>
+<script src="fx.js?v=2" defer></script>
+<script src="../motion.js?v=4" defer></script>
 <script src="wave.js?v=3" defer></script>
 <script src="dive.js?v=7" defer></script>
 </body>

@@ -38,6 +38,7 @@
 .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .06em .14em;margin:0 -.06em -.14em}
 .w__i{display:inline-block;transform:translateY(108%);transition:transform 1s var(--ease-out);transition-delay:calc(var(--i,0) * 55ms)}
 .is-words .w__i{transform:none}
+.is-shown .w{overflow:visible}
 
 /* ---------------------------------------------------------------- HERO
    Первый экран стоит на месте, следующие блоки наезжают на него, как лист

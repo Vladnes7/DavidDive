@@ -1147,3 +1147,68 @@ a{color:inherit}
   /* активная пилюля меню остаётся синей: белый ховер прятал белый текст */
   .nav a.is-active:hover{background:var(--berry);color:#fff;border-color:var(--berry)}
 }
+
+/* ==========================================================================
+   Мобильное меню: раскрывается кругом из кнопки-бургера и сворачивается
+   обратно в неё. Пункты выходят по одному снизу. Открытие длиннее и мягче,
+   закрытие быстрее — человек уже решил уйти, ждать его не нужно.
+   ========================================================================== */
+.menu{
+  justify-content:space-between;gap:1.4rem;overflow-y:auto;overscroll-behavior:contain;
+  padding:calc(var(--hdr) + 1.6rem) var(--gut) calc(1.2rem + env(safe-area-inset-bottom));
+  background:radial-gradient(110% 60% at 100% 0%,rgba(67,139,196,.26),transparent 62%),var(--ocean);
+  clip-path:circle(0px at var(--cx,92%) var(--cy,44px));
+  transition:clip-path .44s cubic-bezier(.77,0,.175,1);
+}
+.menu.is-open{
+  clip-path:circle(160vmax at var(--cx,92%) var(--cy,44px));
+  transition:clip-path .75s cubic-bezier(.32,.72,0,1);
+}
+
+.menu__links{display:grid;counter-reset:mi}
+.menu .menu__links a{
+  counter-increment:mi;display:flex;align-items:baseline;gap:1rem;
+  padding:.42rem .1rem;border-radius:0;
+  font-size:clamp(1.4rem,min(6.4vw,4.2vh),2.4rem);line-height:1.15;
+  border-bottom:1px solid var(--line-dark);
+}
+.menu .menu__links a::before{
+  content:counter(mi,decimal-leading-zero);
+  font:600 .72rem/1 var(--body);letter-spacing:.14em;color:var(--sky);opacity:.75;
+  min-width:1.6rem;translate:0 -.55em;
+}
+.menu .menu__links a.is-active{color:var(--sky)}
+
+.menu__foot{display:grid;gap:.8rem}
+.menu .menu__foot .btn{font:600 1rem/1 var(--body);padding:.9rem 2rem;color:#fff;border-radius:var(--pill)}
+.menu__soc{display:flex;gap:.6rem}
+.menu .menu__soc a{
+  width:52px;height:52px;padding:0;display:grid;place-items:center;
+  border:1px solid var(--line-dark);border-radius:50%;color:var(--sky);
+}
+.menu__soc svg{width:21px;height:21px}
+
+/* пункты: выходят снизу по очереди, при закрытии гаснут разом и быстро */
+.menu__links a,.menu__foot > *{
+  opacity:0;translate:0 26px;
+  transition:opacity .2s ease,translate .3s ease,color .25s var(--ease),background .25s var(--ease);
+}
+.menu.is-open .menu__links a,.menu.is-open .menu__foot > *{
+  opacity:1;translate:0 0;
+  transition:opacity .6s cubic-bezier(.23,1,.32,1),translate .8s cubic-bezier(.23,1,.32,1),color .25s var(--ease),background .25s var(--ease);
+  transition-delay:calc(.14s + var(--i,0) * 40ms);
+}
+
+@media (hover:hover){
+  .menu .menu__links a:hover{background:none;padding-left:.1rem;color:var(--sky)}
+  .menu .menu__soc a:hover{color:#fff;border-color:var(--sky);background:rgba(140,193,233,.14)}
+}
+.menu .menu__links a:active,.menu .menu__soc a:active{transform:scale(.97)}
+
+/* «меньше движения»: без круга и выезда, только мягкое проявление */
+@media (prefers-reduced-motion:reduce){
+  .menu,.menu.is-open{clip-path:none}
+  .menu{opacity:0;transition:opacity .2s ease !important}
+  .menu.is-open{opacity:1}
+  .menu__links a,.menu__foot > *{translate:none}
+}

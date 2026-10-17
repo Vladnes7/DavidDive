@@ -26,7 +26,9 @@
   if (h1) { var d = document.createElement('div'); d.className = h1.className; d.innerHTML = h1.innerHTML; h1.replaceWith(d); }
   sky.parentNode.insertBefore(sea, sky.nextSibling);
 
-  // фильтр «рябь»: шум сдвигает пиксели, частота шума медленно дышит
+  // фильтр «рябь»: шум сдвигает пиксели, частота шума медленно дышит.
+  // На телефоне фильтр не нужен (см. fx.css) — не создаём его вовсе.
+  var light = window.matchMedia('(hover: none), (max-width: 700px)').matches;
   var defs = document.createElement('div');
   defs.className = 'fx-defs';
   defs.innerHTML =
@@ -35,7 +37,7 @@
     '<animate attributeName="baseFrequency" dur="7s" values="0.008 0.07;0.011 0.05;0.008 0.07" repeatCount="indefinite"/></feTurbulence>' +
     '<feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G"/>' +
     '</filter></svg>';
-  document.body.appendChild(defs);
+  if (!light) document.body.appendChild(defs);
 
   /* ------------------------------------------- лучи и пузырьки */
   var main = document.querySelector('main');

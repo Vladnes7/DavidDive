@@ -43,11 +43,18 @@
   var h2s = $$('main .h2');
   h2s.forEach(splitWords);
 
+  // Маска нужна только на время выезда: потом её снимаем, иначе она
+  // подрезает хвосты курсива и букв «у», «р», «д».
+  function showWords(el) {
+    el.classList.add('is-words');
+    setTimeout(function () { el.classList.add('is-shown'); }, 1100 + el.querySelectorAll('.w').length * 55);
+  }
+
   /* ---------------------------------------------- заставка */
   var intro = $('#intro');
   function ready() {
     root.classList.add('is-ready');
-    if (heroH1) heroH1.classList.add('is-words');
+    if (heroH1) showWords(heroH1);
   }
   if (intro && !root.classList.contains('mo-seen')) {
     try { sessionStorage.setItem('dd-intro', '1'); } catch (e) {}
@@ -82,7 +89,7 @@
     entries.forEach(function (en) {
       if (!en.isIntersecting) return;
       var el = en.target;
-      if (el.classList.contains('h2')) el.classList.add('is-words');
+      if (el.classList.contains('h2')) showWords(el);
       if (el.classList.contains('stagger')) {
         el.classList.add('is-in');
         setTimeout(function () { el.classList.add('is-done'); }, 900 + el.children.length * 70);

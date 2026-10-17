@@ -21,16 +21,32 @@
 
   function menuOpen() { return burger.getAttribute('aria-expanded') === 'true'; }
 
+  // порядковые номера для поочерёдного появления пунктов
+  $$('.menu__links a, .menu__foot > *', menu).forEach(function (a, i) { a.style.setProperty('--i', i); });
+
+  /* Меню раскрывается кругом из самой кнопки и туда же сворачивается.
+     Класс .is-open двигает CSS-переходы, а hidden ставится только после
+     того, как круг схлопнулся, — иначе закрытие обрывалось бы на полпути.
+     Повторный клик посреди анимации просто разворачивает её. */
   function setMenu(open) {
     burger.setAttribute('aria-expanded', String(open));
-    menu.hidden = !open;
     document.body.style.overflow = open ? 'hidden' : '';
-    /* Меню закрывает собой всю страницу, поэтому и фокус должен жить внутри
-       него: иначе с клавиатуры человек уходит на ссылки под тёмным экраном
-       и жмёт то, чего не видит. */
+    clearTimeout(menu._t);
     if (open) {
+      var r = burger.getBoundingClientRect();
+      menu.style.setProperty('--cx', Math.round(r.left + r.width / 2) + 'px');
+      menu.style.setProperty('--cy', Math.round(r.top + r.height / 2) + 'px');
+      menu.hidden = false;
+      void menu.offsetWidth;   // кадр с закрытым кругом, чтобы переход стартовал
+      menu.classList.add('is-open');
+      /* Меню закрывает собой всю страницу, поэтому и фокус должен жить внутри
+         него: иначе с клавиатуры человек уходит на ссылки под тёмным экраном
+         и жмёт то, чего не видит. */
       var first = $('a', menu);
-      if (first) first.focus();
+      if (first) first.focus({ preventScroll: true });
+    } else {
+      menu.classList.remove('is-open');
+      menu._t = setTimeout(function () { if (!menuOpen()) menu.hidden = true; }, reduced.matches ? 0 : 460);
     }
   }
   burger.addEventListener('click', function () { setMenu(!menuOpen()); });
